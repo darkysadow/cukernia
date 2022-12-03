@@ -1,6 +1,7 @@
 import React from "react";
 import s from "./Header.module.css";
 import logo from './../../img/logo.jpg'
+import { NavLink } from "react-router-dom";
 
 const Header = (props) => {
     return (<div className={s.header}>
@@ -11,8 +12,8 @@ const Header = (props) => {
                 </div>
                 <div className={s.navMenu}>
                     <ul>
-                        <li>Меню</li>
-                        <li>Відгуки</li>
+                        <li><NavLink to='/menu' className={({isActive}) => (isActive ? s.selected : 'none')}>Меню</NavLink></li>
+                        <li><NavLink to='/main' className={({isActive}) => (isActive ? s.selected : 'none')}>Головна</NavLink></li>
                         <li>Про нас</li>
                         <li>Контакти</li>
                     </ul>
