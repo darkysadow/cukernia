@@ -1,0 +1,52 @@
+.adminPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+}
+
+.label {}
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.inputsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.inputLogin {}
+.inputPassword {}
+
+.inputLogin input,
+.inputPassword input{
+    padding: 10px 15px;
+    border-radius: 2px;
+    border: 1px solid rgba(61, 55, 55, 0.468);
+    letter-spacing: 0.9px;
+}
+
+.checkboxRemember {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkboxRemember input {
+    width: 20px;
+    height: 20px;
+}
+
+.submitError {}
+
+.buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.buttonLogin {}

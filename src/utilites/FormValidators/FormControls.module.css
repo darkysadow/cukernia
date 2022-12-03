@@ -1,0 +1,36 @@
+.formControl{}
+.errorText {
+    position: absolute;
+    bottom: 0px;
+    right: 110%;
+    width: 100%;
+    text-align: center;
+    padding: 13px 15px;
+    background-color: #FD6161;
+    border-radius: 5px;
+}
+
+.errorText::before {
+    content: '';
+    position: absolute;
+    top: 32%;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    background-color: #FD6161;
+    transform: rotate(45deg);
+}
+
+.errorText span {
+    width: 100%;
+    color: #fff;
+}
+.error{}
+.error input,
+.error textarea {
+    border: 1px solid red;
+
+}
+.inputElement{
+    position: relative;
+}
