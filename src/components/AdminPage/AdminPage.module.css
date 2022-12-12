@@ -1,52 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,600&display=swap');
+
 .adminPage {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: inherit;
+
+}
+.topicName {
+    text-transform: capitalize;
+    font-family: "Montserrat";
+    font-size: 30px;
+    color: rgb(65, 65, 65);
+    position: relative;
+}
+.topicName::before {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(65, 65, 65, 0.3);
 }
 
-.label {}
-.loginForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.inputsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.inputLogin {}
-.inputPassword {}
-
-.inputLogin input,
-.inputPassword input{
-    padding: 10px 15px;
-    border-radius: 2px;
-    border: 1px solid rgba(61, 55, 55, 0.468);
-    letter-spacing: 0.9px;
-}
-
-.checkboxRemember {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.checkboxRemember input {
-    width: 20px;
-    height: 20px;
-}
-
-.submitError {}
-
-.buttonsContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.buttonLogin {}
+.categories {}
+.dishes {}
