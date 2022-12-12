@@ -4,9 +4,11 @@ import './App.css';
 import Body from './components/Body';
 import Header from './components/Header/Header';
 import store from './redux/redux-store';
+import { AuthUserProvider } from './utilites/firebase/auth';
 
 function App() {
   return (
+    <AuthUserProvider>
     <Provider store={store}>
       <BrowserRouter>
         <div className='wrapper'>
@@ -16,6 +18,7 @@ function App() {
         </div>
       </BrowserRouter>
     </Provider>
+    </AuthUserProvider>
   );
 }
 
