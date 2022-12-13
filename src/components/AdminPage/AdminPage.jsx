@@ -2,16 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Navigate } from "react-router";
-import { getMenuCategories } from "../../redux/menu-reducer";
 import { useAuth } from "../../utilites/firebase/auth";
 import { getCategories } from "../../utilites/firebase/firestore";
 import s from './AdminPage.module.css';
 
 const AdminPage = (props) => {
     const { authUser } = useAuth();
-    const onSubmit = () => {
-        getMenuCategories();
-    }
     const [categories, setCategories] = useState([]);
     useEffect(() => {
         async function fetchData() {
@@ -28,16 +24,17 @@ const AdminPage = (props) => {
             <div className={`${s.adminPage} ${"container"}`}>
                 <div className={s.categories}>
                     <div className={s.topicName}>
-                        categories
+                        категорії
                     </div>
-                    {categories.map(category => <div key={category}>{category}</div>)}
+                    <div className={s.categoriesContainer}>
+                        {categories.map(category => <div key={category} className={s.category}>{category}</div>)}
+                    </div>
                 </div>
                 <div className={s.dishes}>
                     <div className={s.topicName}>
                         страви
                     </div>
                 </div>
-                <button onClick={onSubmit}>get categories</button>
             </div>
     );
 }
