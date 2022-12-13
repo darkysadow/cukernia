@@ -1,5 +1,5 @@
 
-import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 
 const CATEGORIES_COLLECTION = 'categories';
@@ -26,6 +26,16 @@ export async function getSelectedCategoryMenu(category, setMenu) {
     setMenu(menuArr)
 }
 
+export async function getAllDishes(setAllDishes) {
+    const q = query(collection(db, DISHES_COLLECTION));
+    const querySnapshot = await getDocs(q);
+    let dishesArr = [];
+    querySnapshot.forEach((doc) => {
+        console.log(doc.id, " -> ", doc.data())
+        dishesArr.push(doc.data())
+    })
+    setAllDishes(dishesArr)
+}
 /*
 const q = query(collection(db, "cities"), where("capital", "==", true));
 

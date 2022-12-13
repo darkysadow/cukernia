@@ -3,15 +3,18 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Navigate } from "react-router";
 import { useAuth } from "../../utilites/firebase/auth";
-import { getCategories } from "../../utilites/firebase/firestore";
+import { getAllDishes, getCategories } from "../../utilites/firebase/firestore";
+import AdminMenuItem from "./AdminMenuItem";
 import s from './AdminPage.module.css';
 
 const AdminPage = (props) => {
     const { authUser } = useAuth();
     const [categories, setCategories] = useState([]);
+    const [allDishes, setAllDishes] = useState([]);
     useEffect(() => {
         async function fetchData() {
             await getCategories(setCategories);
+            await getAllDishes(setAllDishes);
         }
         if (authUser) {
             return () => fetchData();
@@ -33,6 +36,10 @@ const AdminPage = (props) => {
                 <div className={s.dishes}>
                     <div className={s.topicName}>
                         страви
+                        <button onClick={() => getAllDishes()}>get all dishes in console</button>
+                    </div>
+                    <div className={s.dishesContainer}>
+                        {allDishes && allDishes.map((dish, index) => <AdminMenuItem key={index} dish={dish} />)}
                     </div>
                 </div>
             </div>
