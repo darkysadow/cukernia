@@ -1,7 +1,9 @@
 import { menuAPI } from "../api/api";
+import { getCategories } from "../utilites/firebase/firestore";
 
 const SET_MENU = 'SET_MENU';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const SET_CATEGORIES = 'SET_CATEGORIES';
 
 let initialState = {
     isFetching: false,
@@ -29,7 +31,8 @@ let initialState = {
         coldDrinks: [],
         lemonades: [],
         hotDrinks: []
-    }
+    },
+    categories: []
 }
 
 export let menuReducer = (state = initialState, action) => {
@@ -40,6 +43,10 @@ export let menuReducer = (state = initialState, action) => {
             return {
                 ...state, isFetching: action.isFetching
             }
+        case SET_CATEGORIES:
+            return {
+                ...state, categories: action.categories
+            }
         default:
             return state;
     }
@@ -47,12 +54,20 @@ export let menuReducer = (state = initialState, action) => {
 
 const toggleFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 const setMenu = (menu) => ({type: SET_MENU, menu});
+const setCategories = (categories) => ({type: SET_CATEGORIES, categories})
 
 export const getMenu = (category) => (dispatch) => {
     dispatch(toggleFetching(true));
     menuAPI.getMenu(category).then(data => {
         dispatch(toggleFetching(false));
         dispatch(setMenu(data.data.items));
+    })
+}
+
+export const getMenuCategories = () => (dispatch) => {
+    getCategories().then(data => {
+        console.log(data);
+        dispatch(setCategories(data))
     })
 }
 
