@@ -22,10 +22,8 @@ const Login = (props) => {
     const navigate = useNavigate();
     const { authUser, isLoading } = useAuth();
     const [ login, setLogin] = useState(false);
-    console.log(authUser)
     const onSubmit = useCallback(
         async event => {
-            console.log(event)
             const {loginInputLogin, passwordInputLogin} = event;
             try {
                 await signInWithEmailAndPassword(auth, loginInputLogin, passwordInputLogin)

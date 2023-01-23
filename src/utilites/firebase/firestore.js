@@ -1,9 +1,26 @@
 
-import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { async } from '@firebase/util';
+import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
+import { getDownloadURL } from './storage';
 import { db } from './firebase';
 
 const CATEGORIES_COLLECTION = 'categories';
 const DISHES_COLLECTION = 'dishes';
+
+/* 
+ Adds receipt to Firestore with given receipt information:
+ - address: address at which purchase was made
+ - amount: amount of expense
+ - date: date of purchase
+ - imageBucket: bucket at which receipt image is stored in Firebase Storage
+ - items: items purchased
+ - locationName: name of location
+ - uid: user ID who the expense is for
+*/
+export function addReceipt( dishName, description, price, portion, available, imageURL) {
+    addDoc(collection(db, DISHES_COLLECTION), { dishName, description, price, portion, available, imageURL, category: 'фронти' });
+  }
+  
 
 export async function getCategories (setCategories) {
     const docRef = doc(db, CATEGORIES_COLLECTION, CATEGORIES_COLLECTION);
@@ -14,16 +31,32 @@ export async function getCategories (setCategories) {
         console.log('No such document');
     }
 }
-
+/*
 export async function getSelectedCategoryMenu(category, setMenu) {
     const q = query(collection(db, DISHES_COLLECTION), where('category', '==', category));
     const querySnapshot = await getDocs(q);
     let menuArr = [];
     querySnapshot.forEach((doc) => {
-        console.log(doc.id, ' => ', doc.data())
         menuArr.push(doc.data())
+        console.log(doc.data());
     })
     setMenu(menuArr)
+}*/
+
+export async function getSelectedCategoryMenu(category, setMenu) {
+    const q = query(collection(db, DISHES_COLLECTION), where('category', '==', category));
+    const unsubscribe = onSnapshot(q, async (snapshot) => {
+        let menuArr = [];
+        for (const documentSnapshot of snapshot.docs) {
+            const dish = documentSnapshot.data();
+            await menuArr.push({
+                ...dish,
+                imageURL: await getDownloadURL(dish["imageURL"])
+            })
+        }
+        setMenu(menuArr)
+    })
+    return unsubscribe;
 }
 
 export async function getAllDishes(setAllDishes) {
@@ -31,8 +64,8 @@ export async function getAllDishes(setAllDishes) {
     const querySnapshot = await getDocs(q);
     let dishesArr = [];
     querySnapshot.forEach((doc) => {
-        console.log(doc.id, " -> ", doc.data())
         dishesArr.push(doc.data())
+        
     })
     setAllDishes(dishesArr)
 }

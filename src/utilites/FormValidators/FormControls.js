@@ -28,3 +28,10 @@ export  const Input = (props) => {
         <input {...input} {...restProps}/>
     </FormControls>)
 }
+
+export const FileInput = (props) => {
+    const {input, meta, child, takeFile, ...restProps} = props;
+    return (<FormControls {...props}>
+        <input type="file" onInput={(e) => takeFile(e.target)} {...input} {...restProps} />
+    </FormControls>)
+}

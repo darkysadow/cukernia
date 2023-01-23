@@ -19,6 +19,31 @@
     height: 1px;
     background-color: rgba(65, 65, 65, 0.3);
 }
+
+.dishesTopic{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.addNewDish {
+    padding: 5px 10px;
+    background-color: #fff;
+    cursor: pointer;
+    border: 1px solid rgb(65, 65, 65);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 18px;
+}
+.addNewDish p {
+    font-size: 30px;
+    margin: 0;
+    font-weight: 900;
+    color: rgb(65, 65, 65);
+    margin: 0 10px 0 0;
+}
 .categoriesContainer {
     display: flex;
     flex-direction: row;
