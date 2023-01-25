@@ -7,6 +7,7 @@ import MenuPage from "./Menu/MenuPage";
 import Login from "./LoginPage/Login";
 import TestForm from "./TestForm/TestForm";
 import SecondTestForm from "./TestForm/SecondTestForm";
+import PagePreloader from "./common/PagePreloader";
 
 
 const Body = (props) => {
@@ -19,6 +20,7 @@ const Body = (props) => {
                 <Route path='/login' element={<Login />} />
                 <Route path='/test' element={<TestForm />} />
                 <Route path='/test2' element={<SecondTestForm />} />
+                <Route path='/pagepreloader' element={<PagePreloader />} />
                 {/*<Route path='/profile/:id' element={<UsersProfileContainer />} />*/}
             </Routes>
             </div>)
