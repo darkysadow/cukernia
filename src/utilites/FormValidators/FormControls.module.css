@@ -27,7 +27,8 @@
 }
 .error{}
 .error input,
-.error textarea {
+.error textarea,
+.error select {
     border: 1px solid red;
 
 }

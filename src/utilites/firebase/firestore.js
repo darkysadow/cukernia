@@ -61,13 +61,25 @@ export async function getSelectedCategoryMenu(category, setMenu) {
 
 export async function getAllDishes(setAllDishes) {
     const q = query(collection(db, DISHES_COLLECTION));
-    const querySnapshot = await getDocs(q);
+    const unsubscribe = onSnapshot(q, async (snapshot) => {
+        let dishes = [];
+        for (const documentSnapshot of snapshot.docs) {
+            const dish = documentSnapshot.data();
+            await dishes.push({
+                ...dish,
+                imageURL: await getDownloadURL(dish["imageURL"])
+            })
+        }
+        setAllDishes(dishes)
+    })
+    return unsubscribe;
+    /*const querySnapshot = await getDocs(q);
     let dishesArr = [];
     querySnapshot.forEach((doc) => {
         dishesArr.push(doc.data())
         
     })
-    setAllDishes(dishesArr)
+    setAllDishes(dishesArr)*/
 }
 /*
 const q = query(collection(db, "cities"), where("capital", "==", true));

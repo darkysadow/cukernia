@@ -27,15 +27,15 @@ const SecondTestForm = (props) => {
         try {
             const bucket = await uploadImage(file, 'фронти');
 
-        // Store data into Firestore
-            await addReceipt( 
-                values.newDishName, 
-                values.newDishDescription, 
-                Number(values.newDishPrice), 
-                values.newDishPortion, 
+            // Store data into Firestore
+            await addReceipt(
+                values.newDishName,
+                values.newDishDescription,
+                Number(values.newDishPrice),
+                values.newDishPortion,
                 values.newDishAvailable === 'true' ? true : false,
                 bucket);
-      
+
         } catch (error) {
             props.onError(console.log(error));
         }
@@ -48,7 +48,7 @@ const SecondTestForm = (props) => {
                 <div className={s.inputsContainer}>
                     <div className={s.inputImage}>
                         {//<input type="file" name="photo" accept=".jpg, .jpeg, .png"/>
-}
+                        }
                         <Field
                             name="newDishImage"
                             component={FileInput}
@@ -58,6 +58,16 @@ const SecondTestForm = (props) => {
                         >
                         </Field>
 
+                    </div>
+                    <div className={s.inputCategory}>
+                        <Field name="toppings" component="select" validate={required}>
+                            <option value="chicken">🐓 Chicken</option>
+                            <option value="ham">🐷 Ham</option>
+                            <option value="mushrooms">🍄 Mushrooms</option>
+                            <option value="cheese">🧀 Cheese</option>
+                            <option value="tuna">🐟 Tuna</option>
+                            <option value="pineapple">🍍 Pineapple</option>
+                        </Field>
                     </div>
                     <div className={s.inputName}>
                         <Field
