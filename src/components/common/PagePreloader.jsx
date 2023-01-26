@@ -23,8 +23,6 @@ const PagePreloader = (props) => {
                             <span style={{ '--i': 11 }}></span>
                             <span style={{ '--i': 12 }}></span>
                             <span style={{ '--i': 14 }}></span>
-
-
                         </div>
                         <div className={s.circle}>
                             <div className={s.tea}>

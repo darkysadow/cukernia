@@ -33,7 +33,7 @@ const SecondTestForm = (props) => {
             return () => fetchData();
         }
     }, [categories])
-    const addNewDish = async (values) => {
+    const addNewDish = async values => {
         formDisabled = true;
         console.log(file)
         console.log(fileName)
@@ -59,7 +59,7 @@ const SecondTestForm = (props) => {
 
     return (
         authUser && categories.length > 0 ?
-            <><Form onSubmit={addNewDish}>
+            <>{/*<Form onSubmit={addNewDish}>
                 {props => (
                     <form onSubmit={props.handleSubmit} className={s.formWindow}>
                         <div className={s.inputsContainer}>
@@ -149,7 +149,114 @@ const SecondTestForm = (props) => {
                     </form>
                 )}
 
-            </Form>
+                            </Form>*/}
+                <Form
+                    onSubmit={addNewDish}
+                    initialValues={{ employed: true }}
+                    render={({ handleSubmit, form, submitting, pristine, values }) => (
+                        <form
+                            onSubmit={event => {
+                                handleSubmit(event).then(form.reset);
+                            }}
+                            className={s.formWindow}
+                        >
+                            <div className={s.inputsContainer}>
+                                <div className={s.inputImage}>
+                                    {//<input type="file" name="photo" accept=".jpg, .jpeg, .png"/>
+                                    }
+                                    <Field
+                                        name="newDishImage"
+                                        component={FileInput}
+                                        validate={required}
+                                        accept=".jpg, .jpeg, .png"
+                                        takeFile={setFileData}
+                                    >
+                                    </Field>
+
+                                </div>
+                                <div className={s.inputCategory}>
+                                    <Field name="dishCategory" component="select" validate={required}>
+                                        <option value="">-- Оберіть категорію --</option>
+                                        {categories.map(category => <option key={category} value={category}>{category}</option>)}
+
+                                    </Field>
+                                </div>
+                                <div className={s.inputName}>
+                                    <Field
+                                        name="newDishName"
+                                        component={Input}
+                                        type="text"
+                                        placeholder='Назва'
+                                        validate={composeValidators(required, maxLength254)}
+                                    />
+                                </div>
+                                <div className={s.inputDescription}>
+                                    <Field
+                                        name="newDishDescription"
+                                        component={Input}
+                                        type="text"
+                                        placeholder='Опис'
+                                        validate={required}
+                                    />
+                                </div>
+                                <div className={s.inputPrice}>
+                                    <Field
+                                        name="newDishPrice"
+                                        component={Input}
+                                        type="number"
+                                        placeholder='Ціна (в гривнях)'
+                                        validate={required}
+                                    />
+                                </div>
+                                <div className={s.inputPortion}>
+                                    <Field
+                                        name="newDishPortion"
+                                        component={Input}
+                                        type="text"
+                                        placeholder='Порція (літри або грами)'
+                                        validate={required}
+                                    />
+                                </div>
+                                <div className={s.inputAvailable}>
+                                    <Field
+                                        name="newDishAvailable"
+                                        component={Input}
+                                        type="radio"
+                                        value='true'
+                                        id="availableChoise1"
+                                        validate={required}
+                                    />
+                                    <label htmlFor="availableChoice1">Доступно</label>
+                                    <Field
+                                        name="newDishAvailable"
+                                        component={Input}
+                                        type="radio"
+                                        value='false'
+                                        id="availableChoise2"
+                                        validate={required}
+                                    />
+                                    <label htmlFor="availableChoice2">Недоступно</label>
+                                </div>
+                                {props.submitError && <div className={s.submitError}>{props.submitError}</div>}
+                                <div className={s.buttonsContainer}>
+                                    <div className={s.buttonSubmit}>
+                                        {/*formDisabled ? <button type="submit" disabled>Додати</button> : <button type="submit">Додати</button>*/}
+                                        <button type="submit" disabled={submitting || pristine}>
+                                            Додати
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={form.reset}
+                                            disabled={submitting || pristine}
+                                        >
+                                            Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    )}
+                />
 
             </> : <PagePreloader />)
 }
