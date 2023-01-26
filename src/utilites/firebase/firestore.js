@@ -17,8 +17,8 @@ const DISHES_COLLECTION = 'dishes';
  - locationName: name of location
  - uid: user ID who the expense is for
 */
-export function addReceipt( dishName, description, price, portion, available, imageURL) {
-    addDoc(collection(db, DISHES_COLLECTION), { dishName, description, price, portion, available, imageURL, category: 'фронти' });
+export function addReceipt( category, dishName, description, price, portion, available, imageURL) {
+    addDoc(collection(db, DISHES_COLLECTION), { dishName, description, price, portion, available, imageURL, category });
   }
   
 

@@ -6,11 +6,10 @@ import { addReceipt, getCategories } from "../../utilites/firebase/firestore";
 import { uploadImage } from "../../utilites/firebase/storage";
 import { FileInput, Input } from "../../utilites/FormValidators/FormControls";
 import { composeValidators, maxLengthCreator, required } from "../../utilites/FormValidators/validators";
+import PagePreloader from "../common/PagePreloader";
 import s from './TestForm.module.css';
 
 const SecondTestForm = (props) => {
-
-
     const maxLength254 = maxLengthCreator(254);
     const { authUser } = useAuth();
     let file = {};
@@ -21,28 +20,30 @@ const SecondTestForm = (props) => {
         file = f;
         fileName = f.name;
     }
-
+    useEffect(() => {
+        console.log('File data changed');
+    }, [file])
     //categories for select to the add dish form
     const [categories, setCategories] = useState([])
     useEffect(() => {
         async function fetchData() {
-            console.log('fetching');
             await getCategories(setCategories);
         }
-        if (authUser) {
+        if (categories.length === 0) {
             return () => fetchData();
         }
-    }, [authUser])
+    }, [categories])
     const addNewDish = async (values) => {
         formDisabled = true;
         console.log(file)
         console.log(fileName)
         console.log(values)
         try {
-            const bucket = await uploadImage(file, 'фронти');
+            const bucket = await uploadImage(file, values.dishCategory);
 
             // Store data into Firestore
             await addReceipt(
+                values.dishCategory,
                 values.newDishName,
                 values.newDishDescription,
                 Number(values.newDishPrice),
@@ -57,7 +58,7 @@ const SecondTestForm = (props) => {
 
 
     return (
-        authUser ?
+        authUser && categories.length > 0 ?
             <><Form onSubmit={addNewDish}>
                 {props => (
                     <form onSubmit={props.handleSubmit} className={s.formWindow}>
@@ -77,8 +78,7 @@ const SecondTestForm = (props) => {
                             </div>
                             <div className={s.inputCategory}>
                                 <Field name="dishCategory" component="select" validate={required}>
-                                    {//<option value="chicken">🐓 Chicken</option>
-                                    }
+                                    <option value="">-- Оберіть категорію --</option>
                                     {categories.map(category => <option key={category} value={category}>{category}</option>)}
 
                                 </Field>
@@ -151,7 +151,7 @@ const SecondTestForm = (props) => {
 
             </Form>
 
-            </> : <>Preloader</>)
+            </> : <PagePreloader />)
 }
 
 export default SecondTestForm;
