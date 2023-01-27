@@ -1,7 +1,7 @@
 import React from "react";
 import s from './FormControls.module.css';
 
-const FormControls = ({input, meta, child, ...props}) => {
+/*const FormControls = ({input, meta, child, ...props}) => {
     const hasError = meta.touched && meta.error;
     return (
         <div className={s.formControl + ' ' + (hasError?s.error:'')}>
@@ -13,6 +13,16 @@ const FormControls = ({input, meta, child, ...props}) => {
             
         </div>
     )
+}*/
+
+const FormControls = ({input, meta, child, ...props}) => {
+    const hasError = meta.touched && meta.error;
+    return (
+            <div className={s.inputElement + ' ' + (hasError?s.error:'')}>
+                {props.children}
+                {hasError && <span className={s.errorText}>{meta.error}</span>}
+            </div>
+    )
 }
 
 export const Textarea = (props) => {
@@ -23,9 +33,11 @@ export const Textarea = (props) => {
 }
 
 export  const Input = (props) => {
-    const {input, meta, child, ...restProps} = props;
+    const {input, meta, child, placeholder, labelRadio, ...restProps} = props;
     return (<FormControls {...props}>
-        <input {...input} {...restProps}/>
+        <input {...input} {...restProps} required='required'/>
+        {placeholder && <span className={s.placeholder}>{placeholder}</span>}
+        {labelRadio && <p>{labelRadio}</p>}
     </FormControls>)
 }
 

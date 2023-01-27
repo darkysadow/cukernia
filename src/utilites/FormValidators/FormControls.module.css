@@ -1,5 +1,5 @@
 .formControl{}
-.errorText {
+/* .errorText {
     position: absolute;
     bottom: 0px;
     right: 110%;
@@ -24,14 +24,137 @@
 .errorText span {
     width: 100%;
     color: #fff;
+} */
+
+* {
+    box-sizing: border-box;
 }
-.error{}
-.error input,
+
+.errorText {
+    position: absolute;
+    color: red;
+    font-size: 0.65em;
+    right: 10px;
+    top: -7px;
+    padding: 0 10px;
+    background: #fff;
+    border-left: 1px solid red;
+    border-right: 1px solid red;
+}
+
+.error {
+    border: 1px solid red;
+    border-radius: 5px;
+}
+
+.error:has(input[type="radio"]) {
+    border: 1px solid red !important;
+    border-radius: 5px;
+}
+
+.error:has(input[type="radio"]):nth-child(1) {
+    border-bottom: none !important;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.error:has(input[type="radio"]):nth-child(2) {
+    border-top: none !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+/* .error input,
 .error textarea,
 .error select {
     border: 1px solid red;
 
-}
+} */
 .inputElement{
     position: relative;
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.inputElement:has(input[type="radio"]) {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 10px 5px;
+    margin: 0;
+    border-radius: 5px;
+}
+
+.inputElement:has(input[type="radio"]) p {
+    margin: 0;
+}
+
+.inputElement:has(input[type="radio"]):nth-child(1) {
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.inputElement:has(input[type="radio"]):nth-child(2) {
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+
+.inputElement select,
+.inputElement input[type="text"],
+.inputElement input[type="file"],
+.inputElement input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background: transparent;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1em;
+}
+
+.inputElement input[type="radio"] {
+    width: 20px;
+    height: 20px;
+}
+
+.inputElement select option[value=''] {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.inputElement input {
+    transition: .5s;
+    color: #000;
+}
+
+.inputElement input[type="file"] {
+    font-size: 0.8em;
+}
+
+.inputElement .placeholder {
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 1em;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    transition: .5s;
+    z-index: 2;
+}
+
+.inputElement input:valid ~ .placeholder,
+.inputElement input:focus ~ .placeholder {
+    color: rgba(0, 0, 0, 0.5);
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.65em;
+    padding: 0 10px;
+    background: #fff;
+    border-left: 1px solid rgba(0, 0, 0, 0.5);
+    border-right: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.inputElement input:valid,
+.inputElement input:focus {
+    border: 1px solid rgba(0, 0, 0, 0.5);
 }

@@ -59,7 +59,7 @@ const SecondTestForm = (props) => {
 
     return (
         authUser && categories.length > 0 ?
-            <div>
+            <div className={s.SecondTestForm}>
                 <Form
                     onSubmit={addNewDish}
                     initialValues={{ employed: true }}
@@ -94,7 +94,7 @@ const SecondTestForm = (props) => {
                                     </Field>
                                     
                                 </div>
-                                <div className={s.inputName}>
+                                
                                     <Field
                                         name="newDishName"
                                         component={Input}
@@ -102,8 +102,8 @@ const SecondTestForm = (props) => {
                                         placeholder='Назва'
                                         validate={composeValidators(required, maxLength254)}
                                     />
-                                </div>
-                                <div className={s.inputDescription}>
+
+
                                     <Field
                                         name="newDishDescription"
                                         component={Input}
@@ -111,8 +111,8 @@ const SecondTestForm = (props) => {
                                         placeholder='Опис'
                                         validate={required}
                                     />
-                                </div>
-                                <div className={s.inputPrice}>
+
+
                                     <Field
                                         name="newDishPrice"
                                         component={Input}
@@ -120,16 +120,16 @@ const SecondTestForm = (props) => {
                                         placeholder='Ціна (в гривнях)'
                                         validate={required}
                                     />
-                                </div>
-                                <div className={s.inputPortion}>
+
+
                                     <Field
                                         name="newDishPortion"
                                         component={Input}
                                         type="text"
-                                        placeholder='Порція (літри або грами)'
+                                        placeholder='Порція'
                                         validate={required}
                                     />
-                                </div>
+
                                 <div className={s.inputAvailable}>
                                     <Field
                                         name="newDishAvailable"
@@ -138,8 +138,9 @@ const SecondTestForm = (props) => {
                                         value='true'
                                         id="availableChoise1"
                                         validate={required}
+                                        labelRadio='Доступно'
                                     />
-                                    <label htmlFor="availableChoice1">Доступно</label>
+                                    
                                     <Field
                                         name="newDishAvailable"
                                         component={Input}
@@ -147,8 +148,9 @@ const SecondTestForm = (props) => {
                                         value='false'
                                         id="availableChoise2"
                                         validate={required}
+                                        labelRadio='Недоступно'
                                     />
-                                    <label htmlFor="availableChoice2">Недоступно</label>
+                                    
                                 </div>
                                 {props.submitError && <div className={s.submitError}>{props.submitError}</div>}
                                 <div className={s.buttonsContainer}>

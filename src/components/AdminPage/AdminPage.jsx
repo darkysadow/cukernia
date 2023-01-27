@@ -6,9 +6,9 @@ import { Field, Form } from "react-final-form";
 import { Navigate } from "react-router";
 import Popup from "reactjs-popup";
 import { useAuth } from "../../utilites/firebase/auth";
-import { getAllDishes, getCategories } from "../../utilites/firebase/firestore";
+import { addReceipt, getAllDishes, getCategories } from "../../utilites/firebase/firestore";
 import { uploadImage } from "../../utilites/firebase/storage";
-import { Input } from "../../utilites/FormValidators/FormControls";
+import { FileInput, Input, Select } from "../../utilites/FormValidators/FormControls";
 import { composeValidators, maxLengthCreator, required } from "../../utilites/FormValidators/validators";
 import AdminMenuItem from "./AdminMenuItem";
 import s from './AdminPage.module.css';
@@ -31,15 +31,34 @@ const AdminPage = (props) => {
         }
     }, [authUser])
 
+    let file = {};
+    let fileName = '';
     const setFileData = (target) => {
-        const file = target.files[0];
-        console.log(target.files[0]);
-        setFormFields(prevState => ({ ...prevState, file }));
-
+        const f = target.files[0];
+        file = f;
+        fileName = f.name;
     }
-    const addNewDish = async (e) => {
-        await uploadImage(formFields.file, 'чай порційний');
-        console.log('form submitted with: ', e, "ref:", photoInputRef.current)
+    const addNewDish = async values => {
+        console.log(file)
+        console.log(fileName)
+        console.log(values)
+        try {
+            console.log(values)
+            const bucket = await uploadImage(file, values.dishCategory);
+
+            // Store data into Firestore
+            await addReceipt(
+                values.dishCategory,
+                values.newDishName,
+                values.newDishDescription,
+                Number(values.newDishPrice),
+                values.newDishPortion,
+                values.newDishAvailable === 'true' ? true : false,
+                bucket);
+
+        } catch (error) {
+            props.onError(console.log(error));
+        }
     }
     return (
         !authUser ?
@@ -62,7 +81,7 @@ const AdminPage = (props) => {
                                 <div className={popup.labelWindow}>
                                     Додати страву до списку
                                 </div>
-                                <Form onSubmit={addNewDish}>
+                                {/* <Form onSubmit={addNewDish}>
                                     {props => (
                                         <form onSubmit={props.handleSubmit} className={popup.formWindow}>
                                             <div className={popup.inputsContainer}>
@@ -149,7 +168,131 @@ const AdminPage = (props) => {
                                             </div>
                                         </form>
                                     )}
-                                </Form>
+                                </Form> */}
+                                <div>
+                                    <Form
+                                        onSubmit={addNewDish}
+                                        initialValues={{ employed: true }}
+                                        render={({ handleSubmit, form, submitting, pristine, values }) => (
+                                            <form
+                                                onSubmit={event => {
+                                                    handleSubmit(event).then(form.reset);
+                                                }}
+                                                className={s.formWindow}
+                                            >
+                                                <div className={s.inputsContainer}>
+                                                    <div className={s.inputImage}>
+                                                        {//<input type="file" name="photo" accept=".jpg, .jpeg, .png"/>
+                                                        }
+                                                        <Field
+                                                            name="newDishImage"
+                                                            component={FileInput}
+                                                            validate={required}
+                                                            accept=".jpg, .jpeg, .png"
+                                                            takeFile={setFileData}
+                                                        >
+                                                        </Field>
+
+                                                    </div>
+                                                    <div className={s.inputCategory}>
+                                                        <Field name="dishCategory" component={Select} validate={required} >
+                                                            <option value="">-- Оберіть категорію --</option>
+                                                            {categories.map(category => <option key={category} value={category}>{category}</option>)}
+
+                                                        </Field>
+                                                        
+                                                    </div>
+                                                    
+                                                        <Field
+                                                            name="newDishName"
+                                                            component={Input}
+                                                            type="text"
+                                                            placeholder='назва'
+                                                            validate={composeValidators(required, maxLength254)}
+                                                        />
+                                                        
+                                                    
+                                                    
+                                                        <Field
+                                                            name="newDishDescription"
+                                                            component={Input}
+                                                            type="text"
+                                                            placeholder='опис'
+                                                            validate={required}
+                                                        />
+                                                        
+                                                    
+                                                        <Field
+                                                            name="newDishPrice"
+                                                            component={Input}
+                                                            type="number"
+                                                            placeholder='ціна'
+                                                            validate={required}
+                                                        />
+                                                        
+                                                    
+                                                        <Field
+                                                            name="newDishPortion"
+                                                            component={Input}
+                                                            type="text"
+                                                            placeholder='порція'
+                                                            validate={required}
+                                                        />
+                                                        
+                                                        <Field
+                                                            name="newDishPortionNominal"
+                                                            component={Select}
+                                                            validate={required}
+                                                        >
+                                                            <option value="" default>-</option>
+                                                            <option value="л.">л.</option>
+                                                            <option value="г.">г.</option>
+                                                            <option value="шт.">шт.</option>
+                                                        </Field>
+                                                    
+                                                    <div className={s.inputAvailable}>
+                                                        <Field
+                                                            name="newDishAvailable"
+                                                            component={Input}
+                                                            type="radio"
+                                                            value='true'
+                                                            id="availableChoise1"
+                                                            validate={required}
+                                                            labelRadio="Доступно"
+                                                        />
+                                            
+                                                        <Field
+                                                            name="newDishAvailable"
+                                                            component={Input}
+                                                            type="radio"
+                                                            value='false'
+                                                            id="availableChoise2"
+                                                            validate={required}
+                                                            labelRadio="Недоступно"
+                                                        />
+                                                        
+                                                    </div>
+                                                    {props.submitError && <div className={s.submitError}>{props.submitError}</div>}
+                                                    <div className={s.buttonsContainer}>
+                                                        <div className={s.buttonSubmit}>
+                                                            {/*formDisabled ? <button type="submit" disabled>Додати</button> : <button type="submit">Додати</button>*/}
+                                                            <button type="submit" disabled={submitting || pristine}>
+                                                                Додати
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={form.reset}
+                                                                disabled={submitting || pristine}
+                                                            >
+                                                                Reset
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        )}
+                                    />
+                                </div>
                             </div>
                         </Popup>
                         {/*<div className={s.addNewDish} onClick={addNewDish}><p>+</p> Додати нову страву</div>*/}
