@@ -1,5 +1,5 @@
 export const required = value => {
-    if(value) return undefined
+    if(value && value!=='') return undefined
     return 'Це обов\'язкове поле'
 }
 
