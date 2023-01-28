@@ -45,6 +45,20 @@
 .error {
     border: 1px solid red;
     border-radius: 5px;
+    animation: shake 300ms;
+}
+
+@keyframes shake {
+    25% {
+        transform: translateX(4px);
+    }
+    50% {
+        transform: translateX(-4px);
+    }
+    75% {
+        transform: translateX(4px);
+    }
+    
 }
 
 .error:has(input[type="radio"]) {
@@ -70,7 +84,7 @@
 } */
 .inputElement{
     position: relative;
-    width: 250px;
+    width: 284px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -103,7 +117,8 @@
 .inputElement select,
 .inputElement input[type="text"],
 .inputElement input[type="file"],
-.inputElement input[type="number"] {
+.inputElement input[type="number"],
+.inputElement textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid rgba(0, 0, 0, 0.5);
@@ -111,6 +126,22 @@
     border-radius: 5px;
     outline: none;
     font-size: 1em;
+}
+
+.inputElement:has(select[inputname='nominal']) {
+    width: calc(284px - 70%);
+}
+
+.inputElement:has(select[inputname='nominal']) span {
+    display: none;
+}
+
+.inputElement:has(input[inputname='portion']) {
+    width: calc(284px - 35%);
+}
+
+.inputElement:has(input[value='false']) span {
+    display: none;
 }
 
 .inputElement input[type="radio"] {

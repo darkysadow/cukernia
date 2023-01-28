@@ -44,13 +44,13 @@ export  const Input = (props) => {
 export const FileInput = (props) => {
     const {input, meta, child, takeFile, ...restProps} = props;
     return (<FormControls {...props}>
-        <input type="file" onInput={(e) => takeFile(e.target)} {...input} {...restProps} />
+        <input type="file" onInput={(e) => takeFile(e.target)} {...input} {...restProps} required='required' />
     </FormControls>)
 }
 
 export const Select = (props) => {
     const {select, input, meta, child, ...restProps} = props;
     return (<FormControls {...props}>
-        <select {...input}{...restProps} ></select>
+        <select {...input}{...restProps} required='required'></select>
     </FormControls>)
 }

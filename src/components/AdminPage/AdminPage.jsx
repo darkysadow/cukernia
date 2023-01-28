@@ -52,7 +52,7 @@ const AdminPage = (props) => {
                 values.newDishName,
                 values.newDishDescription,
                 Number(values.newDishPrice),
-                values.newDishPortion,
+                values.newDishPortion + " " + values.newDishPortionNominal,
                 values.newDishAvailable === 'true' ? true : false,
                 bucket);
 
@@ -188,7 +188,7 @@ const AdminPage = (props) => {
                                                             name="newDishImage"
                                                             component={FileInput}
                                                             validate={required}
-                                                            accept=".jpg, .jpeg, .png"
+                                                            accept=".jpg, .jpeg, .png, .jfif"
                                                             takeFile={setFileData}
                                                         >
                                                         </Field>
@@ -230,26 +230,28 @@ const AdminPage = (props) => {
                                                             validate={required}
                                                         />
                                                         
-                                                    
+                                                    <div className={s.inputsPortion}> 
                                                         <Field
                                                             name="newDishPortion"
                                                             component={Input}
                                                             type="text"
                                                             placeholder='порція'
                                                             validate={required}
+                                                            inputname='portion'
                                                         />
-                                                        
+                                                       
                                                         <Field
                                                             name="newDishPortionNominal"
                                                             component={Select}
                                                             validate={required}
+                                                            inputname='nominal'
                                                         >
                                                             <option value="" default>-</option>
                                                             <option value="л.">л.</option>
                                                             <option value="г.">г.</option>
                                                             <option value="шт.">шт.</option>
                                                         </Field>
-                                                    
+                                                    </div>
                                                     <div className={s.inputAvailable}>
                                                         <Field
                                                             name="newDishAvailable"
@@ -279,12 +281,14 @@ const AdminPage = (props) => {
                                                             <button type="submit" disabled={submitting || pristine}>
                                                                 Додати
                                                             </button>
+                                                        </div>
+                                                        <div className={s.buttonReset}>
                                                             <button
                                                                 type="button"
                                                                 onClick={form.reset}
                                                                 disabled={submitting || pristine}
                                                             >
-                                                                Reset
+                                                                Очистити все
                                                             </button>
                                                         </div>
                                                     </div>
