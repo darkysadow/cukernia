@@ -7,7 +7,7 @@ import { Navigate } from "react-router";
 import Popup from "reactjs-popup";
 import { useAuth } from "../../utilites/firebase/auth";
 import { addReceipt, getAllDishes, getCategories } from "../../utilites/firebase/firestore";
-import { uploadImage } from "../../utilites/firebase/storage";
+import { getDownloadURL, uploadImage } from "../../utilites/firebase/storage";
 import { FileInput, Input, Select, Textarea } from "../../utilites/FormValidators/FormControls";
 import { composeValidators, maxLengthCreator, required } from "../../utilites/FormValidators/validators";
 import Preloader from "../common/Preloader";
@@ -17,11 +17,9 @@ import popup from './Popup.module.css';
 
 const AdminPage = (props) => {
     const maxLength254 = maxLengthCreator(254);
-    const photoInputRef = createRef();
     const { authUser } = useAuth();
     const [categories, setCategories] = useState([]);
     const [allDishes, setAllDishes] = useState([]);
-    const [formFields, setFormFields] = useState({ file: null, fileName: '' });
     useEffect(() => {
         async function fetchData() {
             await getCategories(setCategories);
@@ -53,9 +51,10 @@ const AdminPage = (props) => {
                 values.newDishName,
                 values.newDishDescription,
                 Number(values.newDishPrice),
-                values.newDishPortion + " " + values.newDishPortionNominal,
+                values.newDishPortion,
                 values.newDishAvailable === 'true' ? true : false,
-                bucket);
+                bucket,
+                await getDownloadURL(bucket));
 
         } catch (error) {
             props.onError(console.log(error));
@@ -101,8 +100,6 @@ const AdminPage = (props) => {
                                             >
                                                 <div className={s.inputsContainer}>
                                                     <div className={s.inputImage}>
-                                                        {//<input type="file" name="photo" accept=".jpg, .jpeg, .png"/>
-                                                        }
                                                         <Field
                                                             name="newDishImage"
                                                             component={FileInput}
@@ -111,7 +108,6 @@ const AdminPage = (props) => {
                                                             takeFile={setFileData}
                                                         >
                                                         </Field>
-
                                                     </div>
                                                     <div className={s.inputCategory}>
                                                         <Field name="dishCategory" component={Select} validate={required} >
@@ -119,9 +115,7 @@ const AdminPage = (props) => {
                                                             {categories.map(category => <option key={category} value={category}>{category}</option>)}
 
                                                         </Field>
-                                                        
                                                     </div>
-                                                    
                                                         <Field
                                                             name="newDishName"
                                                             component={Input}
@@ -129,9 +123,6 @@ const AdminPage = (props) => {
                                                             placeholder='назва'
                                                             validate={composeValidators(required, maxLength254)}
                                                         />
-                                                        
-                                                    
-                                                    
                                                         <Field
                                                             name="newDishDescription"
                                                             component={Textarea}
@@ -196,7 +187,6 @@ const AdminPage = (props) => {
                                                     {props.submitError && <div className={s.submitError}>{props.submitError}</div>}
                                                     <div className={s.buttonsContainer}>
                                                         <div className={s.buttonSubmit}>
-                                                            {/*formDisabled ? <button type="submit" disabled>Додати</button> : <button type="submit">Додати</button>*/}
                                                             <button type="submit" disabled={submitting || pristine}>
                                                                 Додати
                                                             </button>
@@ -219,7 +209,6 @@ const AdminPage = (props) => {
                             </div>
                             )}
                         </Popup>
-                        {/*<div className={s.addNewDish} onClick={addNewDish}><p>+</p> Додати нову страву</div>*/}
                     </div>
                     <div className={s.dishesContainer}>
                         {allDishes.length === 0 ? <div className={s.preloaderContainer}><Preloader /></div> :

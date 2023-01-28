@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Field, Form } from "react-final-form";
 import { useAuth } from "../../utilites/firebase/auth";
 import { addReceipt, getCategories } from "../../utilites/firebase/firestore";
-import { uploadImage } from "../../utilites/firebase/storage";
+import { getDownloadURL, uploadImage } from "../../utilites/firebase/storage";
 import { FileInput, Input, Select } from "../../utilites/FormValidators/FormControls";
 import { composeValidators, maxLengthCreator, required } from "../../utilites/FormValidators/validators";
 import PagePreloader from "../common/PagePreloader";
@@ -49,7 +49,8 @@ const SecondTestForm = (props) => {
                 Number(values.newDishPrice),
                 values.newDishPortion,
                 values.newDishAvailable === 'true' ? true : false,
-                bucket);
+                bucket,
+                await getDownloadURL(bucket));
 
         } catch (error) {
             props.onError(console.log(error));

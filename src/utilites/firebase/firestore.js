@@ -17,8 +17,8 @@ const DISHES_COLLECTION = 'dishes';
  - locationName: name of location
  - uid: user ID who the expense is for
 */
-export function addReceipt( category, dishName, description, price, portion, available, imageURL) {
-    addDoc(collection(db, DISHES_COLLECTION), { dishName, description, price, portion, available, imageURL, category });
+export function addReceipt( category, dishName, description, price, portion, available, imageBucketURL, imageURL) {
+    addDoc(collection(db, DISHES_COLLECTION), { dishName, description, price, portion, available, imageBucketURL, imageURL, category });
   }
   
 
@@ -66,8 +66,7 @@ export async function getAllDishes(setAllDishes) {
         for (const documentSnapshot of snapshot.docs) {
             const dish = documentSnapshot.data();
             await dishes.push({
-                ...dish,
-                imageURL: await getDownloadURL(dish["imageURL"])
+                ...dish
             })
         }
         setAllDishes(dishes)
