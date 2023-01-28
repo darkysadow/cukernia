@@ -76,99 +76,16 @@ const AdminPage = (props) => {
                 <div className={s.dishes}>
                     <div className={`${s.topicName} ${s.dishesTopic}`}>
                         страви
-                        <Popup trigger={<button> Trigger</button>} modal>
+                        <Popup trigger={<button> Trigger</button>} modal lockScroll closeOnDocumentClick={false}>
+                            {close => (
+                            
                             <div className={popup.newDishWindow}>
+                                <button className={popup.closeButton} onClick={close} >
+                                    x
+                                </button>
                                 <div className={popup.labelWindow}>
                                     Додати страву до списку
                                 </div>
-                                {/* <Form onSubmit={addNewDish}>
-                                    {props => (
-                                        <form onSubmit={props.handleSubmit} className={popup.formWindow}>
-                                            <div className={popup.inputsContainer}>
-                                                <div className={popup.inputImage}>
-                                                    <input type="file" name="photo" accept=".jpg, .jpeg, .png" onInput={(e) => setFileData(e.target)} />
-                                                    <Field
-                                                        name="newDishImage"
-                                                        component={Input}
-                                                        type='file'
-                                                        validate={required}
-                                                        accept=".jpg, .jpeg, .png"
-                                                        onInput={(e) => {
-                                                            const file = e.target.files[0];
-                                                            console.log(file);
-                                                            console.log(formFields)
-                                                        }}
-                                                        ref={photoInputRef}
-                                                    >
-                                                    </Field>
-                                                    
-                                                </div>
-                                                <div className={popup.inputName}>
-                                                    <Field
-                                                        name="newDishName"
-                                                        component={Input}
-                                                        type="text"
-                                                        placeholder='Назва'
-                                                        validate={composeValidators(required, maxLength254)}
-                                                    />
-                                                </div>
-                                                <div className={popup.inputDescription}>
-                                                    <Field
-                                                        name="newDishDescription"
-                                                        component={Input}
-                                                        type="text"
-                                                        placeholder='Опис'
-                                                        validate={required}
-                                                    />
-                                                </div>
-                                                <div className={popup.inputPrice}>
-                                                    <Field
-                                                        name="newDishPrice"
-                                                        component={Input}
-                                                        type="number"
-                                                        placeholder='Ціна (в гривнях)'
-                                                        validate={required}
-                                                    />
-                                                </div>
-                                                <div className={popup.inputPortion}>
-                                                    <Field
-                                                        name="newDishPortion"
-                                                        component={Input}
-                                                        type="text"
-                                                        placeholder='Порція (літри або грами)'
-                                                        validate={required}
-                                                    />
-                                                </div>
-                                                <div className={popup.inputAvailable}>
-                                                    <Field
-                                                        name="newDishAvailable"
-                                                        component={Input}
-                                                        type="radio"
-                                                        value="availableTrue"
-                                                        id="availableChoise1"
-                                                        validate={required}
-                                                    />
-                                                    <label htmlFor="availableChoice1">Доступно</label>
-                                                    <Field
-                                                        name="newDishAvailable"
-                                                        component={Input}
-                                                        type="radio"
-                                                        value="availableFalse"
-                                                        id="availableChoise2"
-                                                        validate={required}
-                                                    />
-                                                    <label htmlFor="availableChoice2">Недоступно</label>
-                                                </div>
-                                                {props.submitError && <div className={popup.submitError}>{props.submitError}</div>}
-                                                <div className={popup.buttonsContainer}>
-                                                    <div className={popup.buttonSubmit}>
-                                                        <button type="submit">Додати</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    )}
-                                </Form> */}
                                 <div>
                                     <Form
                                         onSubmit={addNewDish}
@@ -298,6 +215,7 @@ const AdminPage = (props) => {
                                     />
                                 </div>
                             </div>
+                            )}
                         </Popup>
                         {/*<div className={s.addNewDish} onClick={addNewDish}><p>+</p> Додати нову страву</div>*/}
                     </div>
