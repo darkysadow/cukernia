@@ -126,6 +126,7 @@
     border-radius: 5px;
     outline: none;
     font-size: 1em;
+    resize: none;
 }
 
 .inputElement:has(select[inputname='nominal']) {
@@ -175,7 +176,9 @@
 }
 
 .inputElement input:valid ~ .placeholder,
-.inputElement input:focus ~ .placeholder {
+.inputElement input:focus ~ .placeholder,
+.inputElement textarea:valid ~ .placeholder,
+.inputElement textarea:focus ~ .placeholder {
     color: rgba(0, 0, 0, 0.5);
     transform: translateX(10px) translateY(-7px);
     font-size: 0.65em;
@@ -186,6 +189,8 @@
 }
 
 .inputElement input:valid,
-.inputElement input:focus {
+.inputElement input:focus,
+.inputElement textarea:valid,
+.inputElement textarea:focus {
     border: 1px solid rgba(0, 0, 0, 0.5);
 }

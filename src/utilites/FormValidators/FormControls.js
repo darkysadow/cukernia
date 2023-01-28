@@ -26,9 +26,10 @@ const FormControls = ({input, meta, child, ...props}) => {
 }
 
 export const Textarea = (props) => {
-    const {input, meta, child, ...restProps} = props;
+    const {input, meta, placeholder, child, ...restProps} = props;
     return (<FormControls {...props}>
-        <textarea {...input} {...restProps}/>
+        <textarea {...input} {...restProps} required='required'/>
+        {placeholder && <span className={s.placeholder}>{placeholder}</span>}
     </FormControls>)
 }
 

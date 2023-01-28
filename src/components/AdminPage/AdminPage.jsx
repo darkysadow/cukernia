@@ -8,7 +8,7 @@ import Popup from "reactjs-popup";
 import { useAuth } from "../../utilites/firebase/auth";
 import { addReceipt, getAllDishes, getCategories } from "../../utilites/firebase/firestore";
 import { uploadImage } from "../../utilites/firebase/storage";
-import { FileInput, Input, Select } from "../../utilites/FormValidators/FormControls";
+import { FileInput, Input, Select, Textarea } from "../../utilites/FormValidators/FormControls";
 import { composeValidators, maxLengthCreator, required } from "../../utilites/FormValidators/validators";
 import AdminMenuItem from "./AdminMenuItem";
 import s from './AdminPage.module.css';
@@ -215,7 +215,7 @@ const AdminPage = (props) => {
                                                     
                                                         <Field
                                                             name="newDishDescription"
-                                                            component={Input}
+                                                            component={Textarea}
                                                             type="text"
                                                             placeholder='опис'
                                                             validate={required}
