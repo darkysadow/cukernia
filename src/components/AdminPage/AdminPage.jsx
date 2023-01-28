@@ -10,6 +10,7 @@ import { addReceipt, getAllDishes, getCategories } from "../../utilites/firebase
 import { uploadImage } from "../../utilites/firebase/storage";
 import { FileInput, Input, Select, Textarea } from "../../utilites/FormValidators/FormControls";
 import { composeValidators, maxLengthCreator, required } from "../../utilites/FormValidators/validators";
+import Preloader from "../common/Preloader";
 import AdminMenuItem from "./AdminMenuItem";
 import s from './AdminPage.module.css';
 import popup from './Popup.module.css';
@@ -70,7 +71,8 @@ const AdminPage = (props) => {
                         категорії
                     </div>
                     <div className={s.categoriesContainer}>
-                        {categories.map(category => <div key={category} className={s.category}>{category}</div>)}
+                        {categories.length === 0 ? <div className={s.preloaderContainer}><Preloader /></div> :
+                        categories.map(category => <div key={category} className={s.category}>{category}</div>)}
                     </div>
                 </div>
                 <div className={s.dishes}>
@@ -220,7 +222,8 @@ const AdminPage = (props) => {
                         {/*<div className={s.addNewDish} onClick={addNewDish}><p>+</p> Додати нову страву</div>*/}
                     </div>
                     <div className={s.dishesContainer}>
-                        {allDishes && allDishes.map((dish, index) => <AdminMenuItem key={index} dish={dish} />)}
+                        {allDishes.length === 0 ? <div className={s.preloaderContainer}><Preloader /></div> :
+                        allDishes && allDishes.map((dish, index) => <AdminMenuItem key={index} dish={dish} />)}
                     </div>
                 </div>
             </div>
