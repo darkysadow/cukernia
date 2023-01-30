@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { createRef } from "react";
 import { useEffect } from "react";
 import { Field, Form } from "react-final-form";
 import { Navigate } from "react-router";
@@ -20,6 +19,8 @@ const AdminPage = (props) => {
     const { authUser } = useAuth();
     const [categories, setCategories] = useState([]);
     const [allDishes, setAllDishes] = useState([]);
+    const [addedDish, setAddedDish] = useState(null);
+
     useEffect(() => {
         async function fetchData() {
             await getCategories(setCategories);
@@ -30,12 +31,21 @@ const AdminPage = (props) => {
         }
     }, [authUser])
 
+    useEffect(() => {
+        addedDish && setTimeout(() => {setAddedDish(null)}, 3500)
+        
+    }, [addedDish])
+
     let file = {};
     let fileName = '';
     const setFileData = (target) => {
         const f = target.files[0];
         file = f;
         fileName = f.name;
+    }
+    const addedNotify = (dishName) => {
+        setAddedDish(dishName);
+        //setTimeout(setAddedDish(null), 3500)
     }
     const addNewDish = async values => {
         console.log(file)
@@ -55,6 +65,7 @@ const AdminPage = (props) => {
                 values.newDishAvailable === 'true' ? true : false,
                 bucket,
                 await getDownloadURL(bucket));
+            await addedNotify(values.newDishName);
 
         } catch (error) {
             props.onError(console.log(error));
@@ -65,6 +76,11 @@ const AdminPage = (props) => {
             <Navigate to={'/login'} />
             :
             <div className={`${s.adminPage} ${"container"}`}>
+                {addedDish ? 
+                    <div className={s.addedNotify}>
+                        <p>Страву "{addedDish}" успішно додано до меню</p>
+                    </div> 
+                : <></>}
                 <div className={s.categories}>
                     <div className={s.topicName}>
                         категорії
@@ -106,11 +122,17 @@ const AdminPage = (props) => {
                                                             validate={required}
                                                             accept=".jpg, .jpeg, .png, .jfif"
                                                             takeFile={setFileData}
+                                                            disabled={submitting}
                                                         >
                                                         </Field>
                                                     </div>
                                                     <div className={s.inputCategory}>
-                                                        <Field name="dishCategory" component={Select} validate={required} >
+                                                        <Field 
+                                                            name="dishCategory" 
+                                                            component={Select} 
+                                                            validate={required} 
+                                                            disabled={submitting}
+                                                        >
                                                             <option value="">-- Оберіть категорію --</option>
                                                             {categories.map(category => <option key={category} value={category}>{category}</option>)}
 
@@ -122,6 +144,7 @@ const AdminPage = (props) => {
                                                             type="text"
                                                             placeholder='назва'
                                                             validate={composeValidators(required, maxLength254)}
+                                                            disabled={submitting}
                                                         />
                                                         <Field
                                                             name="newDishDescription"
@@ -129,6 +152,7 @@ const AdminPage = (props) => {
                                                             type="text"
                                                             placeholder='опис'
                                                             validate={required}
+                                                            disabled={submitting}
                                                         />
                                                         
                                                     
@@ -138,6 +162,7 @@ const AdminPage = (props) => {
                                                             type="number"
                                                             placeholder='ціна'
                                                             validate={required}
+                                                            disabled={submitting}
                                                         />
                                                         
                                                     <div className={s.inputsPortion}> 
@@ -148,6 +173,7 @@ const AdminPage = (props) => {
                                                             placeholder='порція'
                                                             validate={required}
                                                             inputname='portion'
+                                                            disabled={submitting}
                                                         />
                                                        
                                                         <Field
@@ -155,6 +181,7 @@ const AdminPage = (props) => {
                                                             component={Select}
                                                             validate={required}
                                                             inputname='nominal'
+                                                            disabled={submitting}
                                                         >
                                                             <option value="" default>-</option>
                                                             <option value="л.">л.</option>
@@ -171,6 +198,7 @@ const AdminPage = (props) => {
                                                             id="availableChoise1"
                                                             validate={required}
                                                             labelRadio="Доступно"
+                                                            disabled={submitting}
                                                         />
                                             
                                                         <Field
@@ -181,6 +209,7 @@ const AdminPage = (props) => {
                                                             id="availableChoise2"
                                                             validate={required}
                                                             labelRadio="Недоступно"
+                                                            disabled={submitting}
                                                         />
                                                         
                                                     </div>

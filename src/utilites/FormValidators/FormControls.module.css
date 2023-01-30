@@ -44,7 +44,8 @@
 
 .error {
     border: 1px solid red;
-    border-radius: 5px;
+    border-radius: 7px;
+    padding: 0;
     animation: shake 300ms;
 }
 
@@ -176,8 +177,10 @@
 }
 
 .inputElement input:valid ~ .placeholder,
+.inputElement input:disabled ~ .placeholder,
 .inputElement input:focus ~ .placeholder,
 .inputElement textarea:valid ~ .placeholder,
+.inputElement textarea:disabled ~ .placeholder,
 .inputElement textarea:focus ~ .placeholder {
     color: rgba(0, 0, 0, 0.5);
     transform: translateX(10px) translateY(-7px);
