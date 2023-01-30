@@ -1,9 +1,19 @@
+@keyframes popupin {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(100%);
+    }
+}
+
 .newDishWindow {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     border-radius: 15px;
     position: relative;
+    animation: 0.2s ease-in-out popupin;
 }
 .closeButton {
     position: absolute;

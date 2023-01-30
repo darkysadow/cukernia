@@ -61,7 +61,7 @@ const AdminPage = (props) => {
                 values.newDishName,
                 values.newDishDescription,
                 Number(values.newDishPrice),
-                values.newDishPortion,
+                values.newDishPortion + ' ' + values.newDishPortionNominal,
                 values.newDishAvailable === 'true' ? true : false,
                 bucket,
                 await getDownloadURL(bucket));
@@ -110,7 +110,8 @@ const AdminPage = (props) => {
                                         render={({ handleSubmit, form, submitting, pristine, values }) => (
                                             <form
                                                 onSubmit={event => {
-                                                    handleSubmit(event).then(form.reset);
+                                                    handleSubmit(event).then(form.reset).then(form.restart);
+                                                    
                                                 }}
                                                 className={s.formWindow}
                                             >
