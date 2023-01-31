@@ -87,6 +87,7 @@
     box-shadow: 0px 0px 10px rgb(79, 79, 79);
     animation: 3.7s ease-in slideinout;
     overflow-wrap: break-word;
+    z-index: 500;
 }
 
 .addedNotify::before {

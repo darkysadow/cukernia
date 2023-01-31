@@ -5,10 +5,24 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative; 
 }
 
-body[style="overflow: hidden;"] {
-  padding: 0 17px 0 0;
+body[style="overflow: hidden;"]::before {
+  position: absolute;
+  content: '';
+  width: 100vw;
+  height: 200vh;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+@media screen and (min-width: 765px) {
+  body[style="overflow: hidden;"] {
+    padding: 0 17px 0 0;
+  }
 }
 
 code {

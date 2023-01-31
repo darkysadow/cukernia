@@ -20,6 +20,19 @@ const AdminPage = (props) => {
     const [categories, setCategories] = useState([]);
     const [allDishes, setAllDishes] = useState([]);
     const [addedDish, setAddedDish] = useState(null);
+    const [openUpdatePopup, setOpenUpdatePopup] = useState(false);
+    const [openDeletePopup, setOpenDeletePopup] = useState(false);
+
+    const closeUpdatePopup = () => setOpenUpdatePopup(false);
+
+    const toggleUpdatePopup = () => {
+        !openUpdatePopup ? setOpenUpdatePopup(true) : setOpenUpdatePopup(false)
+        console.log(openUpdatePopup)
+    }
+
+    const toggleDeletePopup = () => {
+        !openDeletePopup ? setOpenDeletePopup(true) : setOpenDeletePopup(false)
+    }
 
     useEffect(() => {
         async function fetchData() {
@@ -32,8 +45,8 @@ const AdminPage = (props) => {
     }, [authUser])
 
     useEffect(() => {
-        addedDish && setTimeout(() => {setAddedDish(null)}, 3500)
-        
+        addedDish && setTimeout(() => { setAddedDish(null) }, 3500)
+
     }, [addedDish])
 
     let file = {};
@@ -76,18 +89,18 @@ const AdminPage = (props) => {
             <Navigate to={'/login'} />
             :
             <div className={`${s.adminPage} ${"container"}`}>
-                {addedDish ? 
+                {addedDish ?
                     <div className={s.addedNotify}>
                         <p>Страву "{addedDish}" успішно додано до меню</p>
-                    </div> 
-                : <></>}
+                    </div>
+                    : <></>}
                 <div className={s.categories}>
                     <div className={s.topicName}>
                         категорії
                     </div>
                     <div className={s.categoriesContainer}>
                         {categories.length === 0 ? <div className={s.preloaderContainer}><Preloader /></div> :
-                        categories.map(category => <div key={category} className={s.category}>{category}</div>)}
+                            categories.map(category => <div key={category} className={s.category}>{category}</div>)}
                     </div>
                 </div>
                 <div className={s.dishes}>
@@ -95,18 +108,18 @@ const AdminPage = (props) => {
                         страви
                         <Popup trigger={<button> Trigger</button>} modal lockScroll closeOnDocumentClick={false}>
                             {close => (
-                                <AddDishPopup 
-                                    close={close} 
-                                    addNewDish={addNewDish} 
-                                    setFileData={setFileData} 
-                                    categories={categories} 
+                                <AddDishPopup
+                                    close={close}
+                                    addNewDish={addNewDish}
+                                    setFileData={setFileData}
+                                    categories={categories}
                                 />
                             )}
                         </Popup>
                     </div>
                     <div className={s.dishesContainer}>
                         {allDishes.length === 0 ? <div className={s.preloaderContainer}><Preloader /></div> :
-                        allDishes && allDishes.map((dish, index) => <AdminMenuItem key={index} dish={dish} />)}
+                            allDishes && allDishes.map((dish, index) => <AdminMenuItem openUpdatePopup={openUpdatePopup} openDeletePopup={openDeletePopup} updatePopup={setOpenUpdatePopup} deletePopup={setOpenDeletePopup} key={index} dish={dish} />)}
                     </div>
                 </div>
             </div>

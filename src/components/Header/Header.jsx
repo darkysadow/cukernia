@@ -14,7 +14,7 @@ const Header = (props) => {
         })
     }
     const {authUser} = useAuth();
-    return (<div className={s.header}>
+    return (<header className={s.header}>
         <div className={`${"container"} ${s.headerContainer}`}>
             <div className={s.headerLeft}>
                 <div className={s.logo}>
@@ -34,7 +34,7 @@ const Header = (props) => {
                 <p>вул. Грушевського, 28</p>
             </div>
         </div>
-    </div>);
+    </header>);
 }
 
 export default Header;
