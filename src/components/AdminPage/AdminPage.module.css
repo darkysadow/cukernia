@@ -70,8 +70,7 @@
     text-transform: capitalize;
 }
 .dishes {}
-.dishesContainer {
-}
+
 
 .addedNotify {
     width: 320px;
@@ -100,4 +99,15 @@
     height: 50px;
     background-color: rgb(78, 232, 78);
     clip-path: polygon(15.6% 63.1%, 42.5% 84.4%, 100% 0%, 44.5% 100%); /*Галочка*/
+}
+
+.dishesContainer {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 100%;
+    width: 100%;
+    gap: 15px 3%;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 50px 0;
 }
