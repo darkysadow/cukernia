@@ -9,7 +9,7 @@ const AddDishPopup = (props) => {
     const { close, addNewDish, setFileData, categories, ...restProps} = props;
     const maxLength254 = maxLengthCreator(254);
     return (
-        <div className={popup.newDishWindow}>
+        <div className={`${popup.newDishWindow} ${popup.popupWindow}`}>
             <button className={popup.closeButton} onClick={close} >
                 x
             </button>

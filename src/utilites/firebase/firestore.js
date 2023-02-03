@@ -66,7 +66,8 @@ export async function getAllDishes(setAllDishes) {
         for (const documentSnapshot of snapshot.docs) {
             const dish = documentSnapshot.data();
             await dishes.push({
-                ...dish
+                ...dish,
+                id: documentSnapshot.id
             })
         }
         setAllDishes(dishes)

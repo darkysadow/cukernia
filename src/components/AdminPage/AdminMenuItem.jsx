@@ -4,6 +4,7 @@ import { faTrashCan, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Popup from "reactjs-popup";
 import AddDishPopup from "./popups/AddDishPopup";
+import UpdatePopup from "./popups/UpdatePopup";
 
 
 
@@ -41,12 +42,17 @@ const AdminMenuItem = (props) => {
             <div className={s.menuItemUpdate} onClick={() => updatePopup(true)}>
                 <FontAwesomeIcon icon={faPenToSquare} style={{color: '#3784ff'}}/>
                 <Popup open={openUpdatePopup} onClose={() => updatePopup(false)} modal lockScroll closeOnDocumentClick={false}>
-                            <div className="modal" style={{background: "#fff", padding: "20px", borderRadius: '5px', border: "1px solid black"}}>
+                            {/* <div className="modal" style={{background: "#fff", padding: "20px", borderRadius: '5px', border: "1px solid black"}}>
                                 <a className="close" onClick={() => updatePopup(false)} style={{cursor: 'pointer'}}>
                                     x
                                 </a>
                                 Update Popup
-                            </div>
+                            </div> */}
+                            <UpdatePopup 
+                                popupName='Редагувати страву'
+                                setUpdatePopupState={updatePopup}
+                                dish={dish}
+                            />
                         </Popup>
             </div>
             <div className={s.menuItemDelete} onClick={() => deletePopup(true)}>

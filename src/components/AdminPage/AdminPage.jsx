@@ -119,7 +119,7 @@ const AdminPage = (props) => {
                     </div>
                     <div className={s.dishesContainer}>
                         {allDishes.length === 0 ? <div className={s.preloaderContainer}><Preloader /></div> :
-                            allDishes && allDishes.map((dish, index) => <AdminMenuItem openUpdatePopup={openUpdatePopup} openDeletePopup={openDeletePopup} updatePopup={setOpenUpdatePopup} deletePopup={setOpenDeletePopup} key={index} dish={dish} />)}
+                            allDishes && allDishes.map((dish, index) => <AdminMenuItem openUpdatePopup={openUpdatePopup} openDeletePopup={openDeletePopup} updatePopup={setOpenUpdatePopup} deletePopup={setOpenDeletePopup} key={dish.id} dish={dish} />)}
                     </div>
                 </div>
             </div>
