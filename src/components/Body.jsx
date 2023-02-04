@@ -8,6 +8,7 @@ import Login from "./LoginPage/Login";
 import TestForm from "./TestForm/TestForm";
 import SecondTestForm from "./TestForm/SecondTestForm";
 import PagePreloader from "./common/PagePreloader";
+import AdminTest from "./AdminPage/AdminTest";
 
 
 const Body = (props) => {
@@ -21,6 +22,7 @@ const Body = (props) => {
                 <Route path='/test' element={<TestForm />} />
                 <Route path='/test2' element={<SecondTestForm />} />
                 <Route path='/pagepreloader' element={<PagePreloader />} />
+                <Route path='/admintest' element={<AdminTest />} />
                 {/*<Route path='/profile/:id' element={<UsersProfileContainer />} />*/}
             </Routes>
             </div>)

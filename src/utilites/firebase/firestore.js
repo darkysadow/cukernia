@@ -1,6 +1,6 @@
 
 import { async } from '@firebase/util';
-import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL } from './storage';
 import { db } from './firebase';
 
@@ -17,8 +17,8 @@ const DISHES_COLLECTION = 'dishes';
  - locationName: name of location
  - uid: user ID who the expense is for
 */
-export function addReceipt( category, dishName, description, price, portion, available, imageBucketURL, imageURL) {
-    addDoc(collection(db, DISHES_COLLECTION), { dishName, description, price, portion, available, imageBucketURL, imageURL, category });
+export function addReceipt( category, dishName, description, price, portion, available, imageBucketURL, imageURL, portionNominal) {
+    addDoc(collection(db, DISHES_COLLECTION), { dishName, description, price, portion, available, imageBucketURL, imageURL, category, portionNominal });
   }
   
 
@@ -59,18 +59,20 @@ export async function getSelectedCategoryMenu(category, setMenu) {
     return unsubscribe;
 }
 
-export async function getAllDishes(setAllDishes) {
+export async function getAllDishes(setAllDishes, setIsLoadingDishes) {
     const q = query(collection(db, DISHES_COLLECTION));
     const unsubscribe = onSnapshot(q, async (snapshot) => {
         let dishes = [];
         for (const documentSnapshot of snapshot.docs) {
             const dish = documentSnapshot.data();
-            await dishes.push({
+            dishes.push({
                 ...dish,
-                id: documentSnapshot.id
+                id: documentSnapshot.id,
+                imageURL: await getDownloadURL(dish.imageBucketURL)
             })
         }
-        setAllDishes(dishes)
+        setAllDishes(dishes);
+        setIsLoadingDishes(false);
     })
     return unsubscribe;
     /*const querySnapshot = await getDocs(q);
@@ -81,6 +83,17 @@ export async function getAllDishes(setAllDishes) {
     })
     setAllDishes(dishesArr)*/
 }
+
+export function updateDish(docId, available, category, description, dishName, imageBucketURL,
+    imageURL, portion, portionNominal, price) {
+    setDoc(doc(db, DISHES_COLLECTION, docId), { available, category, description, dishName, imageBucketURL,
+        imageURL, portion, portionNominal, price });
+  }
+  
+
+export function deleteDish(id) {
+    deleteDoc(doc(db, DISHES_COLLECTION, id));
+  }
 /*
 const q = query(collection(db, "cities"), where("capital", "==", true));
 
