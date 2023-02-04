@@ -23,8 +23,36 @@
 
 .buttons {
     display: flex;
-    width: 100%;
+    flex-direction: row;
+    justify-content: space-between !important;
+    padding: 0 24px !important;
+}
+
+.addButton {
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    gap: 10px;
+    font-weight: 600;
+    color: rgb(0, 122, 221);
+    background-color: transparent;
+    transition: .3s;
+    padding: 0 0 1px 0;
+}
+
+.addButton:hover {
+    filter: brightness(150%);
+}
+
+.topping {
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
+}
+
+.addButton {
 }
 
 .imgPicker {

@@ -149,7 +149,7 @@ export default function DishDialog(props) {
         
       </DialogContent>
       <DialogActions className={styles.buttons}>
-        <Button color="primary" variant="contained" onClick={closeDialog}>Закрити</Button>
+        <Button  variant="contained" onClick={closeDialog}>Закрити</Button>
         {isSubmitting ? 
           <Button color="secondary" variant="contained" disabled={true}>
             Відправка...
