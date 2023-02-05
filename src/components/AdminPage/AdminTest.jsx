@@ -9,7 +9,6 @@ import { deleteDish, getAllDishes, getCategories } from "../../utilites/firebase
 import { deleteImage } from "../../utilites/firebase/storage";
 import PagePreloader from "../common/PagePreloader";
 import Preloader from "../common/Preloader";
-import AdminMenuItem from "./AdminMenuItem";
 import s from "./AdminPage.module.css";
 import is from './AdminMenuItem.module.css';
 import styles from './DishDialog.module.css';
@@ -64,11 +63,11 @@ const AdminTest = (props) => {
     const [showErrorSnackbar, setShowErrorSnackbar] = useState(false);
 
     //Listen authUser and isLoading, redirect if needed
-    useEffect(() => {
+    /* useEffect(() => {
         if (!isLoading && !authUser) {
             console.log('redirect')
         }
-    }, [authUser, isLoading])
+    }, [authUser, isLoading]) */
 
     //Get dishes once if user logged in
     /*  useEffect(() => {
@@ -132,30 +131,34 @@ const AdminTest = (props) => {
 
     const theme = createTheme({
         palette: {
-            primary: {
-                // Purple and green play nicely together.
-                main: yellow[800],
-            },
-            secondary: {
-                // This is green.A700 as hex.
-                main: '#11cb5f',
-            },
-            textColor: {
-                main: '#000'
-            }
-        },
-    })
+          primary: {
+              // Purple and green play nicely together.
+              main: yellow[800],
+          },
+          secondary: {
+              // This is green.A700 as hex.
+              main: '#6d1a1bcf',
+          },
+          textColor: {
+              main: '#000'
+          }
+      },
+      })
 
     return (
+        (!authUser && !isLoading) ?
+            <Navigate to={'/login'} />
+        :
         (!authUser && isLoadingDishes) ?
             <PagePreloader />
             :
             <div>
+                <ThemeProvider theme={theme}>
                 <div className="container">
                     <div className={s.pageTopping}>
                         Адмін панель
                     </div>
-                    <ThemeProvider theme={theme}>
+                    
                         <Snackbar open={showSuccessSnackbar}
                             autoHideDuration={1500}
                             onClose={() => setShowSuccessSnackbar(false)}
@@ -185,7 +188,7 @@ const AdminTest = (props) => {
                             {dishes.length === 0 ? <Preloader /> :
                                 dishes && dishes.map((dish) => (
                                     <div className={is.adminMenuItem} key={dish.id}>
-                                        {!dish.available && <div className={is.unavailable}></div>}
+                                        {dish.available === "false" && <div className={is.unavailable}></div>}
                                         <div className={is.menuItemBlur}></div>
                                         <div className={is.menuItemImage}>
                                             <img src={dish.imageURL} alt="" />
@@ -213,7 +216,7 @@ const AdminTest = (props) => {
                                             <div className={is.menuItemUpdate} onClick={() => onUpdate(dish)}>
                                                 <FontAwesomeIcon icon={faPenToSquare} style={{ color: '#3784ff' }} />
                                             </div>
-                                            <div className={is.menuItemDelete} onClick={() => onClickDelete(dish.id, dish.imageBucket)}>
+                                            <div className={is.menuItemDelete} onClick={() => onClickDelete(dish.id, dish.imageBucketURL)}>
                                                 <FontAwesomeIcon icon={faTrashCan} style={{ color: '#ff3737' }} />
                                             </div>
                                         </div>
@@ -221,15 +224,30 @@ const AdminTest = (props) => {
                                 ))
                             }
                         </div>
-                    </ThemeProvider>
+                    
                 </div>
+
                 <DishDialog edit={updateDish}
                     showDialog={action === DISHES_ENUM.add || action === DISHES_ENUM.edit}
                     onError={(dishEnum) => onResult(dishEnum, false)}
                     onSuccess={(dishEnum) => onResult(dishEnum, true)}
                     onCloseDialog={() => setAction(DISHES_ENUM.none)}
                     categories={categories} />
-
+                <Dialog open={action === DISHES_ENUM.delete} onClose={resetDelete} classes={{paper: styles.dialog}}>
+                    <Typography variant="h5" className={styles.title}>ВИДАЛИТИ СТРАВУ</Typography>
+                    <DialogContent>
+                        <Alert severity="error">Ви дійно бажаєте видалити страву зі списку?</Alert>
+                    </DialogContent>
+                    <DialogActions sx={{ padding: '0 24px 24px' }} className={styles.buttons}>
+                        <Button color="secondary" variant="outlined" onClick={resetDelete}>
+                            Відміна
+                        </Button>
+                        <Button color="secondary" variant="contained" onClick={onDelete} autoFocus>
+                            Видалити
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                </ThemeProvider>
             </div>
 
     )

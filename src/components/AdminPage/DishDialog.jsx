@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { Avatar, Button, Dialog, DialogActions, DialogContent, FormControlLabel, Radio, RadioGroup, Stack, TextField, Typography } from '@mui/material';
+import { Avatar, Button, createTheme, Dialog, DialogActions, DialogContent, FormControlLabel, Input, MenuItem, Radio, RadioGroup, Select, Stack, TextField, ThemeProvider, Typography } from '@mui/material';
 import styles from './DishDialog.module.css';
 import { addReceipt, updateDish  } from "../../utilites/firebase/firestore";
 import { getDownloadURL, replaceImage, uploadImage } from "../../utilites/firebase/storage";
 import { DISHES_ENUM } from "./AdminTest";
 import { useAuth } from "../../utilites/firebase/auth";
+import { yellow } from "@mui/material/colors";
 
 const DEFAULT_FILE_NAME = "Файл не обрано!";
 
@@ -14,7 +15,7 @@ const DEFAULT_FORM_STATE = {
   available: null,
   dishName: "",
   description: "",
-  category: "",
+  category: "Оберіть категорію",
   fileName: DEFAULT_FILE_NAME,
   file: null,
   imageBucketURL: "",
@@ -49,9 +50,9 @@ export default function DishDialog(props) {
 
   // Check whether any of the form fields are unedited
   const isDisabled = () => formFields.dishName.length === 0 || formFields.fileName === DEFAULT_FILE_NAME 
-                            || formFields.category.length === 0 || !formFields.price 
+                            || formFields.category === 'Оберіть категорію' || !formFields.price || formFields.price === '0'
                             || formFields.portion.length === 0 || formFields.portionNominal.length === 0
-                            || formFields.description.length === 0 || !formFields.available;
+                            || formFields.portionNominal === '--' || formFields.description.length === 0 || !formFields.available;
 
   // Update given field in the form
   const updateFormField = (event, field) => {
@@ -103,7 +104,24 @@ export default function DishDialog(props) {
     closeDialog();
   };
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+          // Purple and green play nicely together.
+          main: yellow[800],
+      },
+      secondary: {
+          // This is green.A700 as hex.
+          main: '#6d1a1bcf',
+      },
+      textColor: {
+          main: '#000'
+      }
+  },
+  })
+
   return (
+    <ThemeProvider theme={theme}>
     <Dialog classes={{paper: styles.dialog}}
       onClose={closeDialog}
       open={props.showDialog}
@@ -111,7 +129,7 @@ export default function DishDialog(props) {
       <Typography variant="h4" className={styles.title}>
         {isEdit ? "РЕДАГУВАТИ" : "ДОДАТИ"} СТРАВУ
       </Typography>
-      <DialogContent className={styles.fields}>
+      <DialogContent className={styles.fields} >
         <Stack direction="row" spacing={2} className={styles.receiptImage}>
           {(isEdit && !formFields.fileName) && <Avatar alt="receipt image" src={formFields.imageURL}/> }
           <Button variant="outlined" component="label" color="secondary" className={styles.imgPicker}>
@@ -120,23 +138,36 @@ export default function DishDialog(props) {
           </Button>
           <Typography className={styles.pickedImg}>{formFields.fileName}</Typography>
         </Stack>
-        
-        <input type="text" value={formFields.dishName} onChange={(e) => updateFormField(e, 'dishName')} />
-        <input type="text" value={formFields.description} onChange={(e) => updateFormField(e, 'description')} />
-        <input type="number" value={!formFields.price && formFields.price !== 0 ? '' : formFields.price} onChange={(e) => updateFormField(e, 'price')} />
-        <select value={formFields.category} onChange={(e) => updateFormField(e, 'category')}>
-          <option value="">Оберіть категорію</option>
+        <TextField size="small" id="filled-basic" label="Назва страви" variant="filled" value={!formFields.dishName && formFields.dishName.length !== 0 ? '' : formFields.dishName} onChange={(e) => updateFormField(e, 'dishName')} />
+        <TextField size="small" id="filled-basic" label="Опис страви" multiline variant="filled" value={!formFields.description && formFields.description.length !== 0 ? '' : formFields.description} onChange={(e) => updateFormField(e, 'description')} />
+        <Select size="small"
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={formFields.category}
+            onChange={(e) => updateFormField(e, 'category')}
+            className={styles.select}
+        >
+          <MenuItem value={'Оберіть категорію'}>Оберіть категорію</MenuItem>
           {props.categories && props.categories.map((category, index) => (
-            <option value={category} key={index}>{category}</option>
+            <MenuItem value={category} key={index}>{category}</MenuItem>
           ))}
-        </select>
-        <input type="text" value={formFields.portion} onChange={(e) => updateFormField(e, 'portion')} />
-        <select value={formFields.portionNominal} onChange={(e) => updateFormField(e, 'portionNominal')}>
-            <option value="">--</option>
-            <option value="г.">г.</option>
-            <option value="мл.">мл.</option>
-            <option value="шт.">шт.</option>
-        </select>
+        </Select>
+        <TextField type="number" size="small" id="filled-basic" label="Ціна ₴" variant="filled" value={!formFields.price ? '' : Number(formFields.price)} onChange={(e) => updateFormField(e, 'price')} />
+        <Stack direction="row" spacing={2} className={styles.portion}>
+          <TextField size="small" id="filled-basic" label="Кількість" variant="filled" value={!formFields.portion && formFields.portion.length !== 0 ? '' : formFields.portion} onChange={(e) => updateFormField(e, 'portion')} />
+          <Select size="small"
+            labelId="portion-nominal-select-label"
+            id="portion-nominal-select"
+            value={formFields.portionNominal}
+            onChange={(e) => updateFormField(e, 'portionNominal')}
+            className={styles.select}
+        >
+          <MenuItem value={'--'}>--</MenuItem>
+          <MenuItem value={'г.'}>г.</MenuItem>
+          <MenuItem value={'мл.'}>мл.</MenuItem>
+          <MenuItem value={'шт.'}>шт.</MenuItem>
+        </Select>
+        </Stack>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
           value={formFields.available}
@@ -159,5 +190,5 @@ export default function DishDialog(props) {
           </Button>}
       </DialogActions>
     </Dialog>
-  )
+    </ThemeProvider>)
 }

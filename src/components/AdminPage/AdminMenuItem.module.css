@@ -14,6 +14,7 @@
   justify-content: space-between;
   position: relative;
   padding: 0 0 10px 0;
+  font-family: 'Roboto';
 }
 
 .menuItemImage {
@@ -37,6 +38,11 @@
   padding: 0px 10px;
 }
 
+.menuItemAvailable {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .menuItemNameDescription {}
 
 .menuItemName {
@@ -57,6 +63,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin: 5px 0;
 }
 
 .menuItemPrice,
