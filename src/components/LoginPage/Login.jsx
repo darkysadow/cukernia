@@ -10,8 +10,10 @@ import { useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { useAuth } from "../../utilites/firebase/auth";
 import { useHistory } from 'react-router-dom';
+import { Button, createTheme, TextField, ThemeProvider, Typography } from "@mui/material";
+import { yellow } from "@mui/material/colors";
 
-const maxLength254 = maxLengthCreator(254)
+//const maxLength254 = maxLengthCreator(254)
 
 /*
 const onSubmit = (values) => {
@@ -21,68 +23,79 @@ const onSubmit = (values) => {
 const Login = (props) => {
     const navigate = useNavigate();
     const { authUser, isLoading } = useAuth();
-    const [ login, setLogin] = useState(false);
-    const onSubmit = useCallback(
-        async event => {
-            const {loginInputLogin, passwordInputLogin} = event;
+    const [login, setLogin] = useState(false);
+    const [formFields, setFormFields] = useState({ loginInput: '', passwordInput: '' });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const updateFormField = (event, field) => {
+        setFormFields(prevState => ({ ...prevState, [field]: event.target.value }))
+    }
+
+    const isDisabled = () => formFields.loginInput.length === 0 || formFields.passwordInput.length === 0;
+
+    /* const onSubmit = useCallback(
+        async () => {
+            setIsSubmitting(true);
             try {
-                await signInWithEmailAndPassword(auth, loginInputLogin, passwordInputLogin)
+                await signInWithEmailAndPassword(auth, formFields.loginInput, formFields.passwordInput)
+                setIsSubmitting(false)
                 setLogin(true)
                 navigate('/admin')
-                
             } catch(error) {
+                setIsSubmitting(false)
                 alert(error);
             }
+            
         }, [navigate]
-    )
+    ) */
+
+    const onSubmit = async () => {
+        setIsSubmitting(true);
+        try {
+            await signInWithEmailAndPassword(auth, formFields.loginInput, formFields.passwordInput)
+            setLogin(true);
+            navigate('/admin')
+        } catch (error) {
+            setIsSubmitting(false)
+            alert(error);
+        }
+    }
+
+    const theme = createTheme({
+        palette: {
+            primary: {
+                // Purple and green play nicely together.
+                main: yellow[800],
+            },
+            secondary: {
+                // This is green.A700 as hex.
+                main: '#6d1a1bcf',
+            },
+            textColor: {
+                main: '#000'
+            }
+        },
+    })
     return (
         authUser ?
-        <Navigate to={'/admin'}  />
-        :
-        <div className={`${s.adminPage} ${"container"}`}>
-            <Form onSubmit={onSubmit}>
-                {props => (
-                    <form onSubmit={props.handleSubmit} className={s.loginForm}>
-                        <div className={s.label}><p>Увійдіть до системи</p></div>
-                        <div className={s.inputsContainer}>
-                            <div className={s.inputLogin}>
-                                <Field
-                                    name="loginInputLogin"
-                                    component={Input}
-                                    type="email"
-                                    placeholder='Email'
-                                    validate={composeValidators(required, maxLength254)}
-                                />
-                            </div>
-                            <div className={s.inputPassword}>
-                                <Field
-                                    name="passwordInputLogin"
-                                    component={Input}
-                                    type="password"
-                                    placeholder='Password'
-                                    validate={required}
-                                />
-                            </div>
-                            <div className={s.checkboxRemember}>
-                                <Field
-                                    name="checkboxLogin"
-                                    component="input"
-                                    type="checkbox"
-                                />
-                                <p>Запам'ятати мене</p>
-                            </div>
-                            {props.submitError && <div className={s.submitError}>{props.submitError}</div>}
-                            <div className={s.buttonsContainer}>
-                                <div className={s.buttonLogin}>
-                                    <button type="submit">Увійти</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                )}
-
-            </Form>
-        </div>
+            <Navigate to={'/admin'} />
+            :
+            <div className={`${s.adminPage} ${"container"}`}>
+                <ThemeProvider theme={theme}>
+                    <Typography variant="h4" className={s.label}>
+                        Авторизація
+                    </Typography>
+                    <TextField size="small" id="filled-basic" label="Логін" variant="filled" value={!formFields.loginInput ? '' : formFields.loginInput} onChange={(e) => updateFormField(e, 'loginInput')} />
+                    <TextField type='password' size="small" id="filled-basic" label="Пароль" variant="filled" value={!formFields.passwordInput ? '' : formFields.passwordInput} onChange={(e) => updateFormField(e, 'passwordInput')} />
+                    {isSubmitting ?
+                        <Button color="secondary" variant="contained" disabled={true}>
+                            Авторизація...
+                        </Button> :
+                        <Button color="secondary" variant="contained" onClick={onSubmit} disabled={isDisabled()}>
+                            Авторизуватися
+                        </Button>}
+                </ThemeProvider>
+            </div>
     )
 }
 
