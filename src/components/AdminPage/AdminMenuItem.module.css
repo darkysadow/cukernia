@@ -43,8 +43,6 @@
   justify-content: flex-end;
 }
 
-.menuItemNameDescription {}
-
 .menuItemName {
   padding: 10px 0;
   font-family: 'Montserrat Alternates';
@@ -73,11 +71,6 @@
   color: #fff;
   border-radius: 50px;
 }
-
-.menuItemPrice {}
-
-.menuItemPortion {}
-
 
 @media (min-width: 765px) {
 

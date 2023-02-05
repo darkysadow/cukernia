@@ -31,6 +31,32 @@ export async function getCategories (setCategories) {
         console.log('No such document');
     }
 }
+
+export async function getMenuCategories (setCategories) {
+    const docRef = doc(db, CATEGORIES_COLLECTION, CATEGORIES_COLLECTION);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return setCategories(docSnap.data().combinedCategories);
+    } else {
+        console.log('No such document');
+    }
+}
+
+/* export async function getMenuCategories (setCategories) {
+    const docRef = doc(db, CATEGORIES_COLLECTION, 'combinedCategories');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        let menuCategories = [];
+        const categories = docSnap.data();
+        console.log(categories)
+            menuCategories.push({
+                ...categories
+            })
+
+        setCategories(menuCategories)
+        
+    }
+} */
 /*
 export async function getSelectedCategoryMenu(category, setMenu) {
     const q = query(collection(db, DISHES_COLLECTION), where('category', '==', category));

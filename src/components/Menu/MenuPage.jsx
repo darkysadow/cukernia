@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { getCategories, getSelectedCategoryMenu } from "../../utilites/firebase/firestore";
+import { getCategories, getMenuCategories, getSelectedCategoryMenu } from "../../utilites/firebase/firestore";
 import MenuItem from "./MenuItem";
 import s from './MenuPage.module.css';
 
@@ -10,22 +10,50 @@ const MenuPage = (props) => {
     const [menu, setMenu] = useState([]);
     useEffect(() => {
         async function fetchData() {
-            await getCategories(setCategories);
+            await getMenuCategories(setCategories);
         }
         if (categories) {
-            return () => fetchData();
+            fetchData();
         }
     }, [categories])
 
-    useEffect(() => {
+    /* useEffect(() => {
         async function fetchData() {
             await getSelectedCategoryMenu(selectedMenuCategory, setMenu)
         }
         fetchData();
-    }, [selectedMenuCategory])
+    }, [selectedMenuCategory]) */
     return (
         <div className={`${s.menuPage} ${'container'}`}>
-            <p>Категорії</p>
+            <div className={s.categoryColumn}>
+                <h3>Меню:</h3>
+                {categories && categories.map((category, index) => (
+                    <div key={index} style={{padding: '3px 0', transition: '.5s'}}>
+                        <div onClick={() => setSelectedMenuCategory(category.name)}>{category.name}</div>
+                        {category.name === selectedMenuCategory && 
+                        (category.subcategories ? category.subcategories.map(subcategory => (
+                            <div key={subcategory} style={{padding: '0 0 0 20px', transition: '.5s'}}>{subcategory}</div>
+                        ))
+                        :
+                        <div style={{padding: '0 0 0 20px'}}>{category.name}</div>)
+                    }
+                    </div>
+                ))}
+            </div>
+            <div className={s.menuContainerColumn}>
+
+            </div>
+            <div className={s.menuSearchColumn}>
+
+            </div>
+        </div>
+    )
+}
+
+export default MenuPage;
+
+/*
+<p>Категорії</p>
             <div className={s.menuCategories}>
                 {categories.map(category => 
                 <div 
@@ -39,8 +67,4 @@ const MenuPage = (props) => {
             <div className={s.menuContainer}>
                     {menu.map((menuItem, index) => <MenuItem key={index} document={menuItem} />)}
             </div>
-        </div>
-    )
-}
-
-export default MenuPage;
+*/

@@ -1,4 +1,4 @@
-import { Alert, Button, createTheme, Dialog, DialogActions, DialogContent, Divider, IconButton, Snackbar, ThemeProvider, Typography } from "@mui/material";
+import { Alert, Button, createTheme, Dialog, DialogActions, DialogContent, Snackbar, ThemeProvider, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React from "react";
 import { useEffect } from "react";
@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import DishDialog from "./DishDialog";
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { purple, yellow } from "@mui/material/colors";
+import { yellow } from "@mui/material/colors";
 
 
 const ADD_SUCCESS = 'Страву успішно додано до списку';
@@ -144,7 +144,7 @@ const AdminTest = (props) => {
                     <div className={s.pageTopping}>
                         Адмін панель
                     </div>
-                    
+
                         <Snackbar open={showSuccessSnackbar}
                             autoHideDuration={1500}
                             onClose={() => setShowSuccessSnackbar(false)}
