@@ -62,20 +62,6 @@ const AdminTest = (props) => {
     const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
     const [showErrorSnackbar, setShowErrorSnackbar] = useState(false);
 
-    //Listen authUser and isLoading, redirect if needed
-    /* useEffect(() => {
-        if (!isLoading && !authUser) {
-            console.log('redirect')
-        }
-    }, [authUser, isLoading]) */
-
-    //Get dishes once if user logged in
-    /*  useEffect(() => {
-         if (authUser) {
-             async function unsubscribe() {await getAllDishes(setDishes, setIsLoadingDishes);}
-             return () => unsubscribe();
-         }
-     }, [authUser]); */
     useEffect(() => {
         async function fetchData() {
             await getCategories(setCategories);
@@ -179,9 +165,6 @@ const AdminTest = (props) => {
                             <Typography variant="h4" sx={{ lineHeight: 2, paddingRight: "0.5em" }}>
                                 Страви
                             </Typography>
-                            {/* <IconButton aria-label="edit" color="primary" onClick={onClickAdd} className={s.addButton}>
-                                <AddBoxIcon />Додати
-                            </IconButton> */}
                             <button onClick={onClickAdd} className={styles.addButton}><h4>Додати</h4> <AddBoxIcon /></button>
                         </Stack>
                         <div className={s.dishesContainer}>
