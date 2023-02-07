@@ -29,17 +29,17 @@ const MenuPage = (props) => {
             let categoryId = categories.find(category =>
                 category.name === selectedMenuCategory
             );
-            if (categoryId.subcategories) { 
+            if (categoryId.subcategories) {
                 categoryId.subcategories.map(subcategory => {
                     searchDishes.push(
-                       subcategory
+                        subcategory
                     )
                 })
                 setSelectedMenuSubcategories(categoryId.subcategories);
             } else {
                 searchDishes.push(categoryId.name);
                 setSelectedMenuSubcategories([categoryId.name]);
-            } 
+            }
             await getSelectedCategoryMenu(searchDishes, setMenu);
             setIsFetching(false)
         }
@@ -47,9 +47,9 @@ const MenuPage = (props) => {
 
     }, [selectedMenuCategory])
 
-/*     useEffect(() => {
-        console.log(selectedMenuSubcategories)
-    }, [selectedMenuSubcategories]) */
+    /*     useEffect(() => {
+            console.log(selectedMenuSubcategories)
+        }, [selectedMenuSubcategories]) */
 
     return (
         <div className={`${s.menuPage} ${'container'}`}>
@@ -57,20 +57,85 @@ const MenuPage = (props) => {
                 <h3>Меню:</h3>
                 {categories.length === 0 ? (<div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}><Preloader size={2} /></div>) : categories.map((category, index) => (
                     <div key={index} className={s.menuCategory}>
-                        <div onClick={() => setSelectedMenuCategory(category.name)} className={category.name === selectedMenuCategory ? `${s.activeCategory} ${s.menuCategoryName}` : s.menuCategoryName}>{category.name}</div>
+                        <div onClick={() => {
+                            setSelectedMenuCategory(category.name);
+                            if (category.subcategories) {
+                                setSelectedMenuSubcategories(category.subcategories);
+                            } else {
+                                setSelectedMenuSubcategories([category.name])
+                            }
+                        }} className={category.name === selectedMenuCategory ? `${s.activeCategory} ${s.menuCategoryName}` : s.menuCategoryName}>{category.name}</div>
                         {category.name === selectedMenuCategory &&
                             (category.subcategories ? category.subcategories.map(subcategory => (
-                                <div key={subcategory} className={s.menuSubcategory} onClick={() => setSelectedMenuSubcategories([subcategory])}>{subcategory}</div>
+                                <div key={subcategory}
+                                    className={selectedMenuSubcategories && selectedMenuSubcategories.includes(subcategory) ? s.menuSubcategoryActive : s.menuSubcategory}
+                                    onClick={() => {setIsFetching(true); setSelectedMenuSubcategories([subcategory]); setIsFetching(false)}}
+
+                                >{subcategory}</div>
                             ))
                                 :
-                                <div className={s.menuSubcategory} >{category.name}</div>)
+                                <div className={selectedMenuSubcategories && selectedMenuSubcategories.includes(category.name) ? s.menuSubcategoryActive : s.menuSubcategory} >{category.name}</div>)
                         }
                     </div>
                 ))}
             </div>
             <div className={s.menuContainerColumn}>
                 {isFetching ? <div><Preloader size={5} /></div> :
-                    categories.length !== 0 && categories.find(category => category.name === selectedMenuCategory).subcategories ?
+                    (selectedMenuSubcategories && selectedMenuSubcategories.length !== 0) && selectedMenuSubcategories.map((subcategory, index) => (
+                        <div key={index}>
+                            <div className={s.subcategoryLabel}>{subcategory}</div>
+                            <div className={s.dishesContainer}>
+                                {menu.filter(dish => dish.category === subcategory).sort(
+                                    function (a, b) {
+                                        if(a.available > b.available) {
+                                            return -1;
+                                        }
+                                        if(a.available < b.available) {
+                                            return 1;
+                                        }
+                                        return 0;
+                                    }).map((dish, index) => (
+                                    <div key={index} className={s.menuItem}>
+                                        {dish.available === "false" && <div className={s.unavailable}></div>}
+
+                                        <div className={s.menuItemImage}>
+                                            <img src={dish.imageURL} alt="" />
+                                        </div>
+                                        <div className={s.menuItemNameDescription}>
+                                            <div className={s.menuItemName}>
+                                                {dish.dishName}
+                                            </div>
+                                            <div className={s.menuItemDescription}>
+                                                {dish.description}
+                                            </div>
+                                        </div>
+                                        <div className={s.menuItemPricePortion}>
+                                            <div className={s.menuItemPrice}>
+                                                {dish.price} ₴
+                                            </div>
+                                            <div className={s.menuItemPortion}>
+                                                {dish.portion + " " + dish.portionNominal}
+                                            </div>
+                                        </div>
+                                        <div className={s.menuItemAvailable}>
+                                            {dish.available === "true" ? 'Доступно' : 'Недоступно'}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+
+        </div>
+    )
+}
+
+export default MenuPage;
+
+/*
+categories.length !== 0 && categories.find(category => category.name === selectedMenuCategory).subcategories ?
                         categories.length !== 0 && categories.find(category => category.name === selectedMenuCategory).subcategories.map((subcategory, index) => (
                             <div key={index}>
                                 {subcategory}
@@ -137,85 +202,6 @@ const MenuPage = (props) => {
                                     </div>
                                 ))}</div>
                         </div>
-                }
-            </div>
-
-        </div>
-    )
-}
-
-export default MenuPage;
-
-/*
-{isFetching ? <Preloader /> :
-                categories.find(category => category.name === selectedMenuCategory).subcategories ?
-                    categories.find(category => category.name === selectedMenuCategory).subcategories.map((subcategory, index) => (
-                        <div key={index}>
-                            {subcategory}
-                            <div className={s.dishesContainer}>
-                                {menu.filter(dish => dish.category === subcategory).map((dish, index) => (
-                                    <div key={index} className={s.menuItem}>
-                                        {dish.available === "false" && <div className={s.unavailable}></div>}
-
-                                        <div className={s.menuItemImage}>
-                                            <img src={dish.imageURL} alt="" />
-                                        </div>
-                                        <div className={s.menuItemNameDescription}>
-                                            <div className={s.menuItemName}>
-                                                {dish.dishName}
-                                            </div>
-                                            <div className={s.menuItemDescription}>
-                                                {dish.description}
-                                            </div>
-                                        </div>
-                                        <div className={s.menuItemPricePortion}>
-                                            <div className={s.menuItemPrice}>
-                                                {dish.price} ₴
-                                            </div>
-                                            <div className={s.menuItemPortion}>
-                                                {dish.portion + " " + dish.portionNominal}
-                                            </div>
-                                        </div>
-                                        <div className={s.menuItemAvailable}>
-                                            {dish.available === "true" ? 'Доступно' : 'Недоступно'}
-                                        </div>
-                                    </div>
-                                ))}</div>
-                        </div>
-                    )) :
-                    <div>
-                        <div>{selectedMenuCategory}</div>
-                        <div className={s.dishesContainer}>
-                            {menu.filter(dish => dish.category === selectedMenuCategory).map((dish, index) => (
-                                <div key={index} className={s.menuItem}>
-                                    {dish.available === "false" && <div className={s.unavailable}></div>}
-
-                                    <div className={s.menuItemImage}>
-                                        <img src={dish.imageURL} alt="" />
-                                    </div>
-                                    <div className={s.menuItemNameDescription}>
-                                        <div className={s.menuItemName}>
-                                            {dish.dishName}
-                                        </div>
-                                        <div className={s.menuItemDescription}>
-                                            {dish.description}
-                                        </div>
-                                    </div>
-                                    <div className={s.menuItemPricePortion}>
-                                        <div className={s.menuItemPrice}>
-                                            {dish.price} ₴
-                                        </div>
-                                        <div className={s.menuItemPortion}>
-                                            {dish.portion + " " + dish.portionNominal}
-                                        </div>
-                                    </div>
-                                    <div className={s.menuItemAvailable}>
-                                        {dish.available === "true" ? 'Доступно' : 'Недоступно'}
-                                    </div>
-                                </div>
-                            ))}</div>
-                    </div>
-                }
 */
 
 

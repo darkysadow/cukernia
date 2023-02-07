@@ -82,12 +82,19 @@
     font-size: 1em;
 }
 
-.menuSubcategory {
+.menuSubcategory,
+.menuSubcategoryActive {
     font-size: 0.9em;
     padding: 0 0 0 8px;
     transform: translateY(20%);
     opacity: 0;
     animation: anim 0.5s forwards;
+    transition: .3s;
+}
+
+.menuSubcategoryActive {
+  color: #8B2529;
+  font-size: 0.95em;
 }
 
 @keyframes anim {
