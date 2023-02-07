@@ -2,12 +2,14 @@ import React from "react";
 import s from './PagePreloader.module.css';
 
 const Preloader = (props) => {
+    const { size, ...restProps } = props
+    const preloaderSize = !size ? 10 : size;
     return (
-        <div className={s.container}>
-            <div className={s.plate}></div>
-            <div className={s.cup}>
-                <div className={s.top}>
-                    <div className={s.vapour}>
+        <div className={s.container} style={{'--preloader-size': preloaderSize}}>
+            <div className={s.plate} style={{'--preloader-size': preloaderSize}}></div>
+            <div className={s.cup} style={{'--preloader-size': preloaderSize}}>
+                <div className={s.top} style={{'--preloader-size': preloaderSize}}>
+                    <div className={s.vapour} style={{'--preloader-size': preloaderSize}}>
                         <span style={{ '--i': 1 }}></span>
                         <span style={{ '--i': 3 }}></span>
                         <span style={{ '--i': 16 }}></span>
@@ -23,13 +25,13 @@ const Preloader = (props) => {
                         <span style={{ '--i': 12 }}></span>
                         <span style={{ '--i': 14 }}></span>
                     </div>
-                    <div className={s.circle}>
-                        <div className={s.tea}>
+                    <div className={s.circle} style={{'--preloader-size': preloaderSize}}>
+                        <div className={s.tea} style={{'--preloader-size': preloaderSize}}>
 
                         </div>
                     </div>
                 </div>
-                <div className={s.handle}>
+                <div className={s.handle} style={{'--preloader-size': preloaderSize}}>
 
                 </div>
             </div>

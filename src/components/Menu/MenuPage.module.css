@@ -36,3 +36,184 @@
     justify-content: center;
 } */
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+.menuPage {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    justify-content: space-between;
+}
+
+.categoryColumn {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 20%;
+    position: relative;
+    gap: 8px;
+}
+
+.categoryColumn::before {
+    position: absolute;
+    content: "";
+    width: 2px;
+    height: calc(100% - 60px);
+    top: 60px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.menuCategory {
+    cursor: pointer;
+    font-family: "Montserrat";
+    text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.activeCategory {
+    color: #8B2529;
+    
+}
+
+.menuCategoryName {
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.menuSubcategory {
+    font-size: 0.9em;
+    padding: 0 0 0 8px;
+    transform: translateY(20%);
+    opacity: 0;
+    animation: anim 0.5s forwards;
+}
+
+@keyframes anim {
+    0% {
+        transform: translateY(20%);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+
+* {
+    box-sizing: border-box;
+  }
+
+.menuContainerColumn {
+    display: flex;
+    flex: 0 0 78%;
+    flex-direction: column;
+    padding: 20px 0 0 0;
+}
+
+.menuSearchRow {
+
+}
+
+.dishesContainer {
+/*     display: flex;
+    flex-direction: column;
+    flex: 0 0 100%;
+    width: 100%;
+    gap: 15px 3%;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 50px 0; */
+    width: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    padding: 50px 0 0 0;
+    flex: 0 0 100%;
+}
+  
+  .menuItem {
+    border-radius: 15px;
+    display: flex;
+    /*flex: 0 0 30%;*/
+    width: 30%;
+    min-width: 300px;
+    box-shadow: 0px 0px 7px rgba(47, 47, 47, 0.253);
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 0 10px 0;
+    font-family: 'Roboto';
+    gap: 5px;
+    max-height: 400px;
+  }
+  .unavailable {
+    background-color: rgba(20, 20, 20, 0.2);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+  .menuItemImage {
+    width: 100%;
+    height: 200px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .menuItemImage img {
+    width: inherit;
+    object-fit: cover;
+    height: inherit;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .menuItemNameDescription,
+  .menuItemPricePortion,
+  .menuItemAvailable {
+    padding: 0px 10px;
+  }
+  
+  .menuItemAvailable {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .menuItemName {
+    padding: 10px 0;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    color: #6d1a1c;
+    overflow-wrap: break-word;
+  }
+
+  .menuItemName::first-letter,
+  .menuItemDescription::first-letter {
+    text-transform: uppercase;
+  }
+  
+  .menuItemDescription {
+    padding: 10px 0;
+    overflow-wrap: break-word;
+  }
+  
+  .menuItemPricePortion {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+  }
+  
+  .menuItemPrice,
+  .menuItemPortion {
+    padding: 3px 8px;
+    background-color: #6d1a1bcf;
+    color: #fff;
+    border-radius: 50px;
+  }

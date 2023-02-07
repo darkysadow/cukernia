@@ -1,6 +1,6 @@
 
 import { async } from '@firebase/util';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, orderBy, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL } from './storage';
 import { db } from './firebase';
 
@@ -32,57 +32,26 @@ export async function getCategories (setCategories) {
     }
 }
 
-export async function getMenuCategories (setCategories) {
+export async function getMenuCategories (setCategories, setSelectedMenuCategory) {
     const docRef = doc(db, CATEGORIES_COLLECTION, CATEGORIES_COLLECTION);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
+        setSelectedMenuCategory(docSnap.data().combinedCategories[0].name)
         return setCategories(docSnap.data().combinedCategories);
     } else {
         console.log('No such document');
     }
 }
 
-/* export async function getMenuCategories (setCategories) {
-    const docRef = doc(db, CATEGORIES_COLLECTION, 'combinedCategories');
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        let menuCategories = [];
-        const categories = docSnap.data();
-        console.log(categories)
-            menuCategories.push({
-                ...categories
-            })
-
-        setCategories(menuCategories)
-        
-    }
-} */
-/*
 export async function getSelectedCategoryMenu(category, setMenu) {
-    const q = query(collection(db, DISHES_COLLECTION), where('category', '==', category));
+    const q = query(collection(db, DISHES_COLLECTION), where('category', 'in', [...category]));
     const querySnapshot = await getDocs(q);
     let menuArr = [];
-    querySnapshot.forEach((doc) => {
+    await querySnapshot.forEach((doc) => {
         menuArr.push(doc.data())
-        console.log(doc.data());
+        
     })
     setMenu(menuArr)
-}*/
-
-export async function getSelectedCategoryMenu(category, setMenu) {
-    const q = query(collection(db, DISHES_COLLECTION), where('category', '==', category));
-    const unsubscribe = onSnapshot(q, async (snapshot) => {
-        let menuArr = [];
-        for (const documentSnapshot of snapshot.docs) {
-            const dish = documentSnapshot.data();
-            await menuArr.push({
-                ...dish,
-                imageURL: await getDownloadURL(dish["imageURL"])
-            })
-        }
-        setMenu(menuArr)
-    })
-    return unsubscribe;
 }
 
 export async function getAllDishes(setAllDishes, setIsLoadingDishes) {

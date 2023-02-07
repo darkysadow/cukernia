@@ -10,8 +10,8 @@
 
 .container {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: calc(30px * var(--preloader-size));
+    height: calc(30px * var(--preloader-size));
     background: #fcc130;
     border-radius: 50%;
 }
@@ -21,8 +21,8 @@
     position: absolute;
     top: -4px;
     left: -4px;
-    width: 300px;
-    height: 300px;
+    width: calc(30px * var(--preloader-size));
+    height: calc(30px * var(--preloader-size));
     border-radius: 50%;
     background: transparent;
     border: 4px solid #892426;
@@ -36,8 +36,8 @@
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    width: 151px;
-    height: 108px;
+    width: calc(15.1px * var(--preloader-size));
+    height: calc(10.8px * var(--preloader-size));
     
     background: linear-gradient(to right, #f9f9f9, #d9d9d9);
     border-bottom-left-radius: 100%;
@@ -46,21 +46,21 @@
 
 .top {
     position: absolute;
-    top: -30px;
+    top: calc(-3px * var(--preloader-size));
     left: 0px;
     
     width: 100%;
-    height: 60px;
+    height: calc(6px * var(--preloader-size));
     background: linear-gradient(to right, #f9f9f9, #d9d9d9);
     border-radius: 50%;
 }
 
 .circle {
     position: absolute;
-    top: 5px;
-    left: 10px;
-    width: calc(100% - 20px);
-    height: 50px;
+    top: calc(0.5px * var(--preloader-size));
+    left: calc(1px * var(--preloader-size));
+    width: calc(100% - 2px * var(--preloader-size));
+    height: calc(5px * var(--preloader-size));
     background: linear-gradient(to left, #f9f9f9, #d9d9d9);
     border-radius: 50%;
     box-sizing: border-box;
@@ -69,7 +69,7 @@
 
 .tea {
     position: absolute;
-    top: 20px;
+    top: calc(2px * var(--preloader-size));
     left: 0;
     width: 100%;
     height: 100%;
@@ -79,36 +79,36 @@
 
 .handle {
     position: absolute;
-    right: -30px;
-    top: 5px;
-    width: 43px;
-    height: 43px;
-    border: 13px solid #dcdcdc;
-    border-left: 5px solid transparent;
-    border-bottom: 5px solid transparent;
+    right: calc(-3px * var(--preloader-size));
+    top: calc(0.5px * var(--preloader-size));
+    width: calc(4.3px * var(--preloader-size));
+    height: calc(4.3px * var(--preloader-size));
+    border: calc(1.3px * var(--preloader-size)) solid #dcdcdc;
+    border-left: calc(0.5px * var(--preloader-size)) solid transparent;
+    border-left: calc(0.5px * var(--preloader-size)) solid transparent;
     border-radius: 80%;
-    transform: rotate(50deg);
+    transform: rotate(10deg);
 }
 
 .plate {
     position: absolute;
-    bottom: 65px;
+    bottom: calc(6.5px * var(--preloader-size));
     left: 50%;
     transform: translateX(-50%);
-    width: 215px;
-    height: 86px;
+    width: calc(21.5px * var(--preloader-size));
+    height: calc(8.6px * var(--preloader-size));
     background: linear-gradient(to right, #f9f9f9, #d9d9d9);
     border-radius: 50%;
-    box-shadow: 0 35px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 calc(3.5px * var(--preloader-size)) calc(3.5px * var(--preloader-size)) rgba(0, 0, 0, 0.2);
 }
 
 .plate::before{
     content: "";
     position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
+    top: calc(0.5px * var(--preloader-size));
+    left: calc(0.5px * var(--preloader-size));
+    right: calc(0.5px * var(--preloader-size));
+    bottom: calc(0.5px * var(--preloader-size));
     border-radius: 50%;
     background: linear-gradient(to left, #f9f9f9, #d9d9d9);
 
@@ -117,10 +117,10 @@
 .plate::after {
     content: "";
     position: absolute;
-    top: 13px;
-    left: 13px;
-    right: 13px;
-    bottom: 13px;
+    top: calc(1.3px * var(--preloader-size));
+    left: calc(1.3px * var(--preloader-size));
+    right: calc(1.3px * var(--preloader-size));
+    bottom: calc(1.3px * var(--preloader-size));
     background: radial-gradient(rgba(0,0,0,0.2) 25%, transparent, transparent);
     border-radius: 50%;
 }
@@ -129,16 +129,16 @@
     position: relative;
     display: flex;
     z-index: 1;
-    padding: 0 20px;
+    padding: 0 calc(2px * var(--preloader-size));
 }
 
 .vapour span {
     position: relative;
-    bottom: 22px;
+    bottom: calc(2.2px * var(--preloader-size));
     display: block;
-    margin: 0 2px 50px;
-    min-width: 4px;
-    height: 52px;
+    margin: 0 calc(0.2px * var(--preloader-size)) calc(5px * var(i));
+    min-width: calc(0.4px * var(--preloader-size));
+    height: calc(5.2px * var(--preloader-size));
     background: #fff;
     border-radius: 50%;
     animation: animate 5s linear infinite;
