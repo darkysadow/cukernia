@@ -14,7 +14,7 @@
 } */
 
 .menuItemImage {
-    background: linear-gradient(101.42deg, #dfefff -0.04%, rgba(223, 239, 255, 0.27) 94.2%);
+    background: linear-gradient(101.42deg, #fdffdf -0.04%, rgba(255, 250, 223, 0.27) 94.2%);
     box-sizing: border-box;
     overflow: hidden;
     position: relative;
@@ -31,7 +31,7 @@
     top: 0;
     height: 100%;
     width: 150px;
-    background: linear-gradient(to right, transparent 0%, #26b3ff17 50%, transparent 100%);
+    background: linear-gradient(to right, transparent 0%, #ffd42617 50%, transparent 100%);
     animation: load 1s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
 }
 

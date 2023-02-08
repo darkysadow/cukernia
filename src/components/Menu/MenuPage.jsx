@@ -84,7 +84,11 @@ const MenuPage = (props) => {
                 {isFetching ? <div><Preloader size={5} /></div> :
                     (selectedMenuSubcategories && selectedMenuSubcategories.length !== 0) && selectedMenuSubcategories.map((subcategory, index) => (
                         <div key={index}>
-                            <div className={s.subcategoryLabel}>{subcategory}</div>
+                            <div className={s.subcategoryLabel}>
+                                <div className={`${s.subcategoryDecoration} ${s.subcategoryDecorationRotated}`}></div>
+                                <p>{subcategory}</p>
+                                <div className={s.subcategoryDecoration}></div>
+                            </div>
                             <div className={s.dishesContainer}>
                                 {menu.filter(dish => dish.category === subcategory).sort(
                                     function (a, b) {

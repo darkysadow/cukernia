@@ -1,42 +1,5 @@
-/* .menuPage{
-
-}
-
-.menuCategories {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 5px 5px;
-    padding: 10px 0 ;
-}
-
-.category {
-    padding: 5px 10px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
-    text-transform: capitalize;
-    cursor: pointer;
-}
-
-.activeCategory {
-    background-color: #8B2529;
-    color: #fff;
-}
-
-.menuContainer {
-    display: flex;
-    flex-direction: row;
-    flex: 0 0 100%;
-    width: 100%;
-    gap: 15px 3%;
-    flex-wrap: wrap;
-    justify-content: center;
-} */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 .menuPage {
     display: flex;
@@ -48,7 +11,7 @@
 .categoryColumn {
     display: flex;
     flex-direction: column;
-    flex: 0 0 20%;
+    min-width: 235px;
     position: relative;
     gap: 8px;
 }
@@ -115,38 +78,82 @@
 
 .menuContainerColumn {
     display: flex;
-    flex: 0 0 78%;
+    /* flex: 0 0 78%; */
+    flex: 0 0 calc(100% - 235px);
     flex-direction: column;
     padding: 20px 0 0 0;
 }
 
-.menuSearchRow {
+.subcategoryLabel {
+  font-family: 'Pacifico', cursive;
+  padding: 20px 0 10px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2em;
+}
 
+.subcategoryDecoration {
+  width: 20px;
+  height: 4px;
+  background-color: #6d1a1c;
+  border-radius: 84% 16% 16% 84% / 50% 49% 51% 50% ;
+  position: relative;
+}
+
+.subcategoryDecoration::before,
+.subcategoryDecoration::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 4px;
+  background-color: #6d1a1c;
+  
+  
+}
+.subcategoryDecoration::before {
+  
+  top: 6px;
+  left: 0;
+  transform: rotate(25deg);
+  border-radius: 5% 100% 0% 100% / 14% 100% 0% 91% ;
+}
+
+.subcategoryDecoration::after {
+  left: 0;
+  bottom: 6px;
+  transform: rotate(-25deg) ;
+  border-radius: 95% 0% 100% 0% / 86% 0% 100% 9%  ;
+}
+
+.subcategoryDecorationRotated {
+  transform: rotate(180deg);
+}
+
+.subcategoryLabel p {
+  margin: 0;
+}
+
+.subcategoryLabel p::first-letter {
+  text-transform: capitalize;
 }
 
 .dishesContainer {
-/*     display: flex;
-    flex-direction: column;
-    flex: 0 0 100%;
-    width: 100%;
-    gap: 15px 3%;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 50px 0; */
     width: 100%;
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
-    padding: 50px 0 0 0;
+    padding: 0px 0 0 0;
     flex: 0 0 100%;
 }
   
   .menuItem {
     border-radius: 15px;
     display: flex;
-    /*flex: 0 0 30%;*/
     width: 30%;
     min-width: 300px;
     box-shadow: 0px 0px 7px rgba(47, 47, 47, 0.253);
