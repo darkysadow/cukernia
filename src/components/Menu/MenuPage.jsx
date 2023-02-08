@@ -56,8 +56,9 @@ const MenuPage = (props) => {
         <div className={`${s.menuPage} ${'container'}`}>
             <div className={s.categoryColumn}>
                 <h3>Меню:</h3>
+                <div className={s.menuCategories}>
                 {categories.length === 0 ? (<div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}><Preloader size={2} /></div>) : categories.map((category, index) => (
-                    <div key={index} className={s.menuCategory}>
+                    <div key={index} className={`${s.menuCategory}`}>
                         <div onClick={() => {
                             setSelectedMenuCategory(category.name);
                             if (category.subcategories) {
@@ -78,10 +79,49 @@ const MenuPage = (props) => {
                                 <div className={selectedMenuSubcategories && selectedMenuSubcategories.includes(category.name) ? s.menuSubcategoryActive : s.menuSubcategory} >{category.name}</div>)
                         }
                     </div>
-                ))}
+                ))}</div>
+                <div className={s.menuCategoriesMobile}>
+                {categories.length === 0 
+                ? 
+                    (<div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}><Preloader size={2} /></div>) 
+                :
+                    <>
+                    <div className={s.menuCategoriesRow}>
+                        {categories.map((category, index) => (
+                            <div key={index} 
+                                onClick={() => {
+                                    setSelectedMenuCategory(category.name);
+                                    if (category.subcategories) {
+                                        setSelectedMenuSubcategories(category.subcategories);
+                                    } else {
+                                        setSelectedMenuSubcategories([category.name])
+                                    }
+                                }}
+                                className={category.name === selectedMenuCategory ? `${s.activeCategory} ${s.menuCategoryName}` : s.menuCategoryName}>
+                                {category.name}
+                            </div>
+                        ))}
+                    </div>
+                    <div className={s.menuSubcategoriesRow}>
+                        {categories.find(category => category.name === selectedMenuCategory) &&
+                            (categories.find(category => category.name === selectedMenuCategory).subcategories ? categories.find(category => category.name === selectedMenuCategory).subcategories.map(subcategory => (
+                                <div key={subcategory}
+                                    className={selectedMenuSubcategories && selectedMenuSubcategories.includes(subcategory) ? `${s.menuSubcategoryMobileActive} ${s.menuSubcategoryMobile}`: s.menuSubcategoryMobile}
+                                    onClick={() => {setIsFetching(true); setSelectedMenuSubcategories([subcategory]); setIsFetching(false)}}
+
+                                >{subcategory}</div>
+                            ))
+                                :
+                                <div className={selectedMenuSubcategories && selectedMenuSubcategories.includes(categories.find(category => category.name === selectedMenuCategory).name) ? `${s.menuSubcategoryMobileActive} ${s.menuSubcategoryMobile}` : s.menuSubcategoryMobile} >{categories.find(category => category.name === selectedMenuCategory).name}</div>)
+                        }
+                        
+                    </div>
+                    </>
+                }
+                </div>
             </div>
             <div className={s.menuContainerColumn}>
-                {isFetching ? <div><Preloader size={5} /></div> :
+                {isFetching ? <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%'}}><Preloader size={5} /></div> :
                     (selectedMenuSubcategories && selectedMenuSubcategories.length !== 0) && selectedMenuSubcategories.map((subcategory, index) => (
                         <div key={index}>
                             <div className={s.subcategoryLabel}>
@@ -113,6 +153,16 @@ const MenuPage = (props) => {
 }
 
 export default MenuPage;
+
+
+/*
+
+selectedMenuSubcategories && selectedMenuSubcategories.includes(subcategory) ? s.menuSubcategoryMobileActive : 
+
+*/
+
+
+
 
 /*
 categories.length !== 0 && categories.find(category => category.name === selectedMenuCategory).subcategories ?

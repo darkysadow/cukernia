@@ -8,12 +8,14 @@
     justify-content: space-between;
 }
 
+
+
 .categoryColumn {
     display: flex;
     flex-direction: column;
     min-width: 235px;
     position: relative;
-    gap: 8px;
+    
 }
 
 .categoryColumn::before {
@@ -25,7 +27,11 @@
     right: 0px;
     background-color: rgba(0, 0, 0, 0.1);
 }
-
+.menuCategories {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 .menuCategory {
     cursor: pointer;
     font-family: "Montserrat";
@@ -230,4 +236,90 @@
     background-color: #6d1a1bcf;
     color: #fff;
     border-radius: 50px;
+  }
+  .menuCategoriesMobile {
+    display: none;
+  }
+  @media screen and (max-width: 768px) {
+    .menuPage {
+      flex-direction: column;
+    }
+
+    .menuSubcategoryMobileActive {
+      
+    }
+    .categoryColumn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      overflow-x: auto;
+    }
+    .categoryColumn h3 {
+      text-align: center;
+    }
+    .menuCategories {
+      display: none;
+    }
+    .menuCategoriesMobile {
+      display: flex;
+      flex-direction: column;
+    }
+    .menuCategoryName,
+    .menuSubcategoryMobile {
+      padding: 10px 20px;
+      cursor: pointer;
+      
+    }
+
+    .menuCategoryName {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background-color: #f8f7f7;
+      border-radius: 15px;
+    }
+    .activeCategory {
+      border: 1px solid #6d1a1c;
+    }
+    .menuCategoryName::first-letter,
+    .menuSubcategoryMobile::first-letter {
+      text-transform: capitalize;
+    }
+
+    .menuSubcategoryMobile {
+      background-color: #dadada2d;
+      border-radius: 15px;
+      border: 1px solid #00000011;
+    }
+
+    .menuSubcategoryMobileActive {
+      border: 1px solid #6d1a1c;
+      color: #6d1a1c;
+      background-color: #fff;
+    }
+
+    .menuCategoriesRow,
+    .menuSubcategoriesRow {
+      display: flex;
+      flex-direction: row;
+      white-space: nowrap;
+      overflow: auto;
+      gap: 10px;
+      padding: 0 10px 15px 10px;
+    }
+
+    .menuSubcategoriesRow {
+      margin: 20px 0 0 0;
+      padding: 10px 10px 15px 10px;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    /* .menuCategoryName {
+      width: 100%;
+      max-width: 300px;
+    }
+    .menuCategory {
+      border-radius: 5px;
+      border: 2px solid black;
+    } */
+
   }
