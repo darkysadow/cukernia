@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { getMenuCategories, getSelectedCategoryMenu } from "../../utilites/firebase/firestore";
 import s from './MenuPage.module.css';
 import Preloader from './../common/Preloader';
+import MenuItem from "./MenuItem";
 
 const MenuPage = (props) => {
     const [categories, setCategories] = useState([]);
@@ -95,32 +96,7 @@ const MenuPage = (props) => {
                                         }
                                         return 0;
                                     }).map((dish, index) => (
-                                    <div key={index} className={s.menuItem}>
-                                        {dish.available === "false" && <div className={s.unavailable}></div>}
-
-                                        <div className={s.menuItemImage}>
-                                            <img src={dish.imageURL} alt="" />
-                                        </div>
-                                        <div className={s.menuItemNameDescription}>
-                                            <div className={s.menuItemName}>
-                                                {dish.dishName}
-                                            </div>
-                                            <div className={s.menuItemDescription}>
-                                                {dish.description}
-                                            </div>
-                                        </div>
-                                        <div className={s.menuItemPricePortion}>
-                                            <div className={s.menuItemPrice}>
-                                                {dish.price} ₴
-                                            </div>
-                                            <div className={s.menuItemPortion}>
-                                                {dish.portion + " " + dish.portionNominal}
-                                            </div>
-                                        </div>
-                                        <div className={s.menuItemAvailable}>
-                                            {dish.available === "true" ? 'Доступно' : 'Недоступно'}
-                                        </div>
-                                    </div>
+                                    <MenuItem key={index} dish={dish} subcategory={selectedMenuSubcategories} />
                                 ))}
                             </div>
                         </div>
