@@ -39,6 +39,17 @@ body, #root{
   height: 100%;
 }
 
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background-color: #532715;
+}
+
 .container {
 	max-width: 1170px;
 	margin: 0 auto;

@@ -24,14 +24,12 @@ const Header = (props) => {
                     <ul>
                         <li><NavLink to='/menu' className={({isActive}) => (isActive ? s.selected : 'none')}>Меню</NavLink></li>
                         <li><NavLink to='/main' className={({isActive}) => (isActive ? s.selected : 'none')}>Головна</NavLink></li>
-                        <li>Про нас</li>
-                        <li>Контакти</li>
                     </ul>
                 </div>
             </div>
             <div className={s.headerRight}>
-                {authUser && <div className={s.logoutButton} onClick={signOutHandler}>Вихід</div>}
-                <p>вул. Грушевського, 28</p>
+                {authUser && authUser ? <div className={s.logoutButton} onClick={signOutHandler}>Вихід</div> : <p>вул. Грушевського, 28</p>}
+                
             </div>
         </div>
     </header>);

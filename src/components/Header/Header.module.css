@@ -101,3 +101,13 @@ a {
 	transition: all 0.2s linear;
 	font-size: 16px;
 }
+
+@media screen and (max-width: 425px) {
+    .headerRight {
+        display: none;
+    }
+    .headerLeft {
+        flex: 0 0 100%;
+        justify-content: space-between;
+    }
+}
