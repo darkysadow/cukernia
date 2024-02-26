@@ -31,6 +31,10 @@ const Login = (props) => {
         setFormFields(prevState => ({ ...prevState, [field]: event.target.value }))
     }
 
+    useEffect(() => {
+        console.log(authUser);
+    }, [authUser])
+
     const isDisabled = () => formFields.loginInput.length === 0 || formFields.passwordInput.length === 0;
 
     /* const onSubmit = useCallback(

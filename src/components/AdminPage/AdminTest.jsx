@@ -64,6 +64,7 @@ const AdminTest = (props) => {
 
     useEffect(() => {
         async function fetchData() {
+            console.log(authUser);
             await getCategories(setCategories);
             await getAllDishes(setDishes, setIsLoadingDishes);
 
@@ -72,6 +73,9 @@ const AdminTest = (props) => {
             fetchData();
         }
     }, [authUser])
+    useEffect(() => {
+        console.log(authUser);
+    }, [])
 
     //Sets appropriate snackbar message or whether @isSuccess and updates shown dishes if necessary
     const onResult = async (dishEnum, isSuccess) => {

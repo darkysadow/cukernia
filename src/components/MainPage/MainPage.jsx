@@ -13,10 +13,17 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import s1 from './../../img/s1.jpg';
+import s2 from './../../img/s2.jpg';
+import s3 from './../../img/s3.jpg';
+import s4 from './../../img/s4.jpg';
+import s5 from './../../img/s5.jpg';
+import menuImage from './../../img/m.jpg';
 import { redirect, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faLocation, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { getDownloadURL } from "../../utilites/firebase/storage";
 
 
 SwiperCore.use([Navigation, Pagination, EffectCoverflow]);
@@ -58,20 +65,15 @@ const MainPage = (props) => {
                 coverflowEffect={{ rotate: 20, stretch: 0, depth: 200, modifier: 1, slideShadows: true }}
                 pagination={{ clickable: true }}
             >
-                <SwiperSlide><img src="https://scontent.fiev7-3.fna.fbcdn.net/v/t39.30808-6/311594566_773009547220295_868134658385156428_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=p-KkyjTwtUIAX_IrUgw&_nc_ht=scontent.fiev7-3.fna&oh=00_AfD4R7jgraiSkzgSUeds_dc1sYaSdK6ESRTpS1at8t8oAA&oe=63ED2567" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-                <SwiperSlide><img src="https://scontent.fiev7-4.fna.fbcdn.net/v/t39.30808-6/306325471_742938053560778_4617483110567365969_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=P0SYP7Zj6BwAX9QMHda&_nc_ht=scontent.fiev7-4.fna&oh=00_AfC-UjPTyuPPIcHv5Pua4-YvuAn_DLROPmwFch7UrBKSjQ&oe=63ECE849" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-                <SwiperSlide><img src="https://scontent.fiev7-4.fna.fbcdn.net/v/t39.30808-6/299345782_584431546608409_1187004183726658249_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a26aad&_nc_ohc=clv-cjYQggAAX8q9Fat&tn=pS9ME2Av9W1LQRRU&_nc_ht=scontent.fiev7-4.fna&oh=00_AfCK1D7-aWFwSGP5UDTsOH1sqL9I-RtxzKbpeVD_aWKOlg&oe=63ED9600" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-                <SwiperSlide><img src="https://scontent.fiev7-3.fna.fbcdn.net/v/t39.30808-6/289472693_550024163382481_4541371884603523865_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=a26aad&_nc_ohc=nk_0U8N2QNIAX9rhIHN&_nc_ht=scontent.fiev7-3.fna&oh=00_AfBELZp88msWgSy_roHrFuXeQgYgj376e2sny4kxOQ00-g&oe=63EC0D8F" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-                <SwiperSlide><img src="https://scontent.fiev7-4.fna.fbcdn.net/v/t39.30808-6/247621385_397744535277112_2097217819864239853_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=a26aad&_nc_ohc=pIiHzE_Emi8AX-jKGJ1&_nc_ht=scontent.fiev7-4.fna&oh=00_AfCDAREY2WONPOatFMRgXW6fhZREe92bb5kWy1YhDoCMrg&oe=63EC6023" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-                <SwiperSlide><img src="https://scontent.fiev7-3.fna.fbcdn.net/v/t39.30808-6/243094495_391138855937680_6124165743210427899_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=a26aad&_nc_ohc=m_VmQ_KBx-AAX9TSYIv&_nc_ht=scontent.fiev7-3.fna&oh=00_AfDW2CkFBGzO3nehlGG6uEjLFyroP2cJ84f9B7h71XdSiA&oe=63ECBF48" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-                <SwiperSlide><img src="https://scontent.fiev7-4.fna.fbcdn.net/v/t39.30808-6/306325471_742938053560778_4617483110567365969_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=P0SYP7Zj6BwAX9QMHda&_nc_ht=scontent.fiev7-4.fna&oh=00_AfCBuxwu89bQj7xXDGYqfMsqZeRb_XRIKgSDfB_c5pWirA&oe=63EAEE09" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-                <SwiperSlide><img src="https://scontent.fiev7-4.fna.fbcdn.net/v/t39.30808-6/305804270_741750627012854_1252444458412339549_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=e3f864&_nc_ohc=YBufVucMXZ8AX-t5u7q&_nc_ht=scontent.fiev7-4.fna&oh=00_AfC6sTajZ8ibT9G1xijtIx58iFeSQlXlfuzBEggt0CXymQ&oe=63EAC9AD" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-                <SwiperSlide><img src="https://scontent.fiev7-4.fna.fbcdn.net/v/t39.30808-6/301147855_590909562627274_8534414343246353148_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a26aad&_nc_ohc=jluBrZbB5JYAX-3Yk-P&_nc_ht=scontent.fiev7-4.fna&oh=00_AfAkQIU2TlZy6aNU9mdzcQSp0ChLRAxjyChelUP7GxI6xg&oe=63EAFA1D" height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
-            </Swiper>
+                <SwiperSlide><img src={s1} alt="" height='200px' width='100%' style={{ objectFit: 'cover' }} /></SwiperSlide>
+                <SwiperSlide><img src={s2} height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
+                <SwiperSlide><img src={s3} height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
+                <SwiperSlide><img src={s4} height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>
+                <SwiperSlide><img src={s5} height='200px' width='100%' style={{ objectFit: 'cover' }} alt="" /></SwiperSlide>            </Swiper>
             <div className={`${s.sliderBlockMenu} ${'container'}`}>
                 <h3>наше меню</h3>
                 <div className={s.menuImageBlock}>
-                    <img src="https://scontent.fiev7-4.fna.fbcdn.net/v/t39.30808-6/241631261_370244661360433_1932873507780080631_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=a26aad&_nc_ohc=PevAd-aO_vUAX8kXVqt&_nc_ht=scontent.fiev7-4.fna&oh=00_AfBHiQ1uJYvtHvdeb0dsKMkpQFeo0K2FIVKfwYMU8gE96w&oe=63ED9022" alt="menu" />
+                    <img src={menuImage} alt="menu" />
                 </div>
                 <button onClick={() => navigate('/menu')}>переглянути меню</button>
             </div>
